@@ -1,0 +1,12 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Infrastructure\Base\BaseRepository;
+
+class {{ class }} extends BaseRepository
+{
+    public function __construct(
+        protected readonly {{ model }} $model,
+    ) {}
+}

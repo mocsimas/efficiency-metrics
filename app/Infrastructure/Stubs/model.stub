@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Infrastructure\Base\BaseModel;
+
+class {{ class }} extends BaseModel
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'uuid',
+    ];
+
+    //public function transform() {
+    //    return new {{ resource }}($this);
+    //}
+
+    //public static function transformCollection($data) {
+    //    return {{ resource }}::collection($data);
+    //}
+}

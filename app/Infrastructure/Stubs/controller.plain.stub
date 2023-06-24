@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Infrastructure\Base\BaseController;
+use Illuminate\Http\Request;
+
+class {{ class }} extends BaseController
+{
+    //
+}
