@@ -3,5 +3,5 @@
 </script>
 
 <template lang="pug">
-| Hello
+router-view
 </template>
