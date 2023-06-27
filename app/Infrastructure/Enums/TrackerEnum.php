@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Enums;
 
+use App\Domain\Models\User\User;
+use App\Domain\Models\Workspace\Workspace;
 use App\Domain\Services\ClockifyService;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
 use Illuminate\Support\Facades\Http;
@@ -46,9 +48,17 @@ enum TrackerEnum: string
         };
     }
 
-    public function getTrackerIdKey(): string {
+    public function getTrackerIdKey($namespace): string {
         return match($this) {
-            self::CLOCKIFY => 'id',
+            self::CLOCKIFY => match($namespace) {
+                User::class, Workspace::class => 'id',
+            },
+        };
+    }
+
+    public function getDefaultKey(): ?string {
+        return match($this) {
+            self::CLOCKIFY => config('tracker.clockify.api.key'),
         };
     }
 }

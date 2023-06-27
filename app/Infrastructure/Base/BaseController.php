@@ -20,7 +20,7 @@ abstract class BaseController extends Controller
 
     protected function error(string $error, array $errors = [], int|string $code = 500): JsonResponse {
         if(!array_key_exists($code, Response::$statusTexts)) {
-            if(config('app.debug') === true)
+            if(config('app.debug') === true && config('app.env') !== 'testing')
                 dd($error, $errors);
 
             $error = 'Server error.';
