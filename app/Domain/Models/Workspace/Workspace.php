@@ -13,6 +13,8 @@ class Workspace extends BaseModel
         'uuid',
         'title',
         'tracker',
+        'tracker_workspace_id',
+        'tracker_title',
     ];
 
     //public function transform() {

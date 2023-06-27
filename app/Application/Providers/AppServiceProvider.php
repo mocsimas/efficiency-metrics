@@ -24,14 +24,14 @@ class AppServiceProvider extends ServiceProvider
 
         // Tracker controller dependency injection bind
         $this->app->bind(TrackerServiceInterface::class, function($app) {
-            $tracker = request()->route()->parameter('tracker');
+            $tracker = request()->route()?->parameter('tracker');
 
             $trackerEnum = TrackerEnum::tryFrom($tracker);
 
             if(!$trackerEnum)
                 throw new NotFoundHttpException('Page Not Found');
 
-            return $app->make($trackerEnum->getService());
+            return $app->make($trackerEnum->getService()::class);
         });
     }
 
