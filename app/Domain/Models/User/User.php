@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Domain\Models\Workspace;
+namespace App\Domain\Models\User;
 
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Workspace extends BaseModel
+class User extends BaseModel
 {
     use HasFactory;
 
     protected $fillable = [
         'uuid',
-        'title',
+        'name',
         'tracker',
-        'tracker_workspace_id',
-        'tracker_title',
+        'tracker_user_id',
+        'tracker_name',
     ];
 
     protected $casts = [
