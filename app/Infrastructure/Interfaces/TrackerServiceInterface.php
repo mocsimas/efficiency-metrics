@@ -11,9 +11,15 @@ interface TrackerServiceInterface
 
     public function mapWorkspace(array $workspace): array;
 
+    public function mapUser(array $user): array;
+
     public function workspaces(): Collection;
 
     public function scrapeWorkspaces(): bool;
+
+    public function users(): Collection;
+
+    public function scrapeUsers(): bool;
 
 //    public function timeEntries(): Collection;
 }

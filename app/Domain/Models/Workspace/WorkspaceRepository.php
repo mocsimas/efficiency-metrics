@@ -2,11 +2,7 @@
 
 namespace App\Domain\Models\Workspace;
 
-use App\Domain\Services\ClockifyService;
-use App\Infrastructure\Base\BaseRepository;
 use App\Infrastructure\Base\ResourceRepository;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Http;
 
 class WorkspaceRepository extends ResourceRepository
 {

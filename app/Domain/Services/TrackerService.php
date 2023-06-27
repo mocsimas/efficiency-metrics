@@ -13,6 +13,6 @@ class TrackerService
     }
 
     public function getTrackerApiKey(TrackerEnum $enum): ?string {
-        return $this->getTracker($enum)?->key;
+        return config('app.env') === 'testing' ? $enum->getDefaultKey() : $this->getTracker($enum)?->key;
     }
 }

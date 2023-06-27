@@ -35,7 +35,9 @@ final class TrackerController extends BaseController
 
     public function users(): JsonResponse {
         try {
-            return $this->service->users();
+            $users = $this->service->users();
+
+            return $this->response($users);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), [], $exception->getCode());
         }
@@ -43,7 +45,9 @@ final class TrackerController extends BaseController
 
     public function scrapeUsers(): JsonResponse {
         try {
-            return $this->service->scrapeUsers();
+            $users = $this->service->scrapeUsers();
+
+            return $this->response($users);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), [], $exception->getCode());
         }
