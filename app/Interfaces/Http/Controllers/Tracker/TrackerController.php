@@ -13,13 +13,39 @@ final class TrackerController extends BaseController
         protected readonly TrackerServiceInterface $service,
     ) {}
 
-    public function index(): JsonResponse {
+    public function workspaces(): JsonResponse {
         try {
-            $workspaces = $this->service->getWorkspaces();
+            $workspaces = $this->service->workspaces();
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
-            $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), [], $exception->getCode());
+        }
+    }
+
+    public function scrapeWorkspaces(): JsonResponse {
+        try {
+            $workspaces = $this->service->scrapeWorkspaces();
+
+            return $this->response($workspaces);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), [], $exception->getCode());
+        }
+    }
+
+    public function users(): JsonResponse {
+        try {
+            return $this->service->users();
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), [], $exception->getCode());
+        }
+    }
+
+    public function scrapeUsers(): JsonResponse {
+        try {
+            return $this->service->scrapeUsers();
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), [], $exception->getCode());
         }
     }
 }

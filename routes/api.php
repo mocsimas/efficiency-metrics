@@ -20,5 +20,6 @@ Route::prefix('/workspaces')->group(function() {
 });
 
 Route::prefix("/{tracker}/workspaces")->group(function() {
-    Route::get('/', [TrackerController::class, 'index']);
+    Route::get('/', [TrackerController::class, 'workspaces']);
+    Route::post('/scrape', [TrackerController::class, 'scrapeWorkspaces']);
 });
