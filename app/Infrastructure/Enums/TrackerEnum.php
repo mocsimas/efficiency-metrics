@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Enums;
 
 use App\Domain\Services\ClockifyService;
+use App\Infrastructure\Interfaces\TrackerServiceInterface;
 use Illuminate\Support\Facades\Http;
 use Tracker;
 
@@ -39,9 +40,15 @@ enum TrackerEnum: string
         };
     }
 
-    public function getService(): string {
+    public function getService(): TrackerServiceInterface {
         return match($this) {
-            self::CLOCKIFY => ClockifyService::class,
+            self::CLOCKIFY => new ClockifyService(),
+        };
+    }
+
+    public function getTrackerIdKey(): string {
+        return match($this) {
+            self::CLOCKIFY => 'id',
         };
     }
 }

@@ -13,8 +13,4 @@ class WorkspaceRepository extends ResourceRepository
     public function __construct(
         protected readonly Workspace $model,
     ) {}
-
-    public function index(): Collection {
-        return $this->getModelQueryBuilder()->all();
-    }
 }
