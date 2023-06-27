@@ -13,8 +13,11 @@ return new class extends Migration
             $table->string('title');
             $table->date('started_at');
             $table->date('ended_at');
-            $table->string('duration');
+            $table->unsignedMediumInteger('duration');
             $table->string('tracker');
+            $table->string('tracker_time_entry_id');
+            $table->string('tracker_title');
+            $table->string('tracker_user_id');
             $table->uuid('workspace_uuid');
             $table->uuid('project_uuid');
             $table->uuid('task_uuid')->nullable();

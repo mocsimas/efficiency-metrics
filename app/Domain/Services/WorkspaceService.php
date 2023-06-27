@@ -12,7 +12,7 @@ class WorkspaceService
     private readonly WorkspaceRepository $repository;
 
     public function __construct() {
-        $this->repository = new WorkspaceRepository(new Workspace());
+        $this->repository = WorkspaceRepository::getInstance();
     }
 
     private function workspacesGenerator(Collection $workspaces): \Generator {

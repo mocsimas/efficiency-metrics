@@ -21,5 +21,7 @@ interface TrackerServiceInterface
 
     public function scrapeUsers(): bool;
 
-//    public function timeEntries(): Collection;
+    public function timeEntries(): Collection;
+
+    public function scrapeTimeEntries(): bool;
 }

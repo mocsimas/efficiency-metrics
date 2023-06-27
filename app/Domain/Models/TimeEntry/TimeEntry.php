@@ -3,6 +3,7 @@
 namespace App\Domain\Models\TimeEntry;
 
 use App\Infrastructure\Base\BaseModel;
+use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TimeEntry extends BaseModel
@@ -16,14 +17,21 @@ class TimeEntry extends BaseModel
         'ended_at',
         'duration',
         'tracker',
+        'tracker_time_entry_id',
+        'tracker_title',
+        'tracker_user_id',
         'workspace_uuid',
         'project_uuid',
         'task_uuid',
     ];
 
-    //public function transform() {
-    //    return new {{ resource }}($this);
-    //}
+    protected $casts = [
+        'tracker' => TrackerEnum::class
+    ];
+
+    public function transform() {
+//        return new {{ resource }}($this);
+    }
 
     //public static function transformCollection($data) {
     //    return {{ resource }}::collection($data);

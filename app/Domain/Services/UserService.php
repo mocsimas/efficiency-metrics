@@ -12,7 +12,7 @@ class UserService
     private readonly UserRepository $repository;
 
     public function __construct() {
-        $this->repository = new UserRepository(new User());
+        $this->repository = UserRepository::getInstance();
     }
 
     private function usersGenerator(Collection $users): \Generator {

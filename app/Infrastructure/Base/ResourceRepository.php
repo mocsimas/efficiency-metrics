@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 abstract class ResourceRepository extends BaseRepository implements ResourceRepositoryInterface
 {
-    protected function getModelQueryBuilder() {
-        return $this->model;
-    }
-
     public function index(): Collection {
         return $this->getModelQueryBuilder()->all();
     }
@@ -20,5 +16,14 @@ abstract class ResourceRepository extends BaseRepository implements ResourceRepo
 
     public function create(array $values): ?BaseModel {
         return $this->getModelQueryBuilder()->create($values);
+    }
+
+    public function updateOrCreate(string $key, mixed $value, array $data): ?BaseModel {
+//        if(!$this->find($key, $value))
+//            return $this->create($data);
+//
+//        return $this->update();
+
+        return $this->create($data);
     }
 }

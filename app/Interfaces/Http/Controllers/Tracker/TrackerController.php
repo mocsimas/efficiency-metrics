@@ -3,7 +3,6 @@
 namespace App\Interfaces\Http\Controllers\Tracker;
 
 use App\Infrastructure\Base\BaseController;
-use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -48,6 +47,26 @@ final class TrackerController extends BaseController
             $users = $this->service->scrapeUsers();
 
             return $this->response($users);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), [], $exception->getCode());
+        }
+    }
+
+    public function timeEntries(): JsonResponse {
+        try {
+            $timeEntries = $this->service->timeEntries();
+
+            return $this->response($timeEntries);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), [], $exception->getCode());
+        }
+    }
+
+    public function scrapeTimeEntries(): JsonResponse {
+        try {
+            $timeEntries = $this->service->scrapeTimeEntries();
+
+            return $this->response($timeEntries);
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), [], $exception->getCode());
         }
