@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 abstract class ResourceRepository extends BaseRepository implements ResourceRepositoryInterface
 {
+    protected const ORDER = 'created_at';
+
+    protected const ORDER_BY = 'DESC';
+
     public function index(): Collection {
-        return $this->getModelQueryBuilder()->all();
+        return $this->getModelQueryBuilder()->orderBy(static::ORDER, static::ORDER_BY)->get();
     }
 
     public function find(string $key, mixed $value): ?BaseModel {
