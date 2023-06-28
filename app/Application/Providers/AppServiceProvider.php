@@ -3,6 +3,7 @@
 namespace App\Application\Providers;
 
 use App\Domain\Services\ClockifyService;
+use App\Domain\Services\TimeService;
 use App\Domain\Services\TrackerService;
 use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
         // Facade bind
         $this->app->bind('tracker', function() {
             return new TrackerService();
+        });
+        $this->app->bind('time', function() {
+            return new TimeService();
         });
 
         // Tracker controller dependency injection bind

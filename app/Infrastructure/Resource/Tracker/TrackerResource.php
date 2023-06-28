@@ -9,6 +9,7 @@ class TrackerResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        // TODO: fill resource
         return parent::toArray($request);
     }
 }

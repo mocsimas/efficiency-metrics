@@ -185,6 +185,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Tracker' => App\Infrastructure\Facades\TrackerFacade::class,
+        'Time' => App\Infrastructure\Facades\TimeFacade::class,
     ])->toArray(),
 
 ];

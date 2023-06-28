@@ -3,8 +3,6 @@
 namespace App\Infrastructure\Base;
 
 use App\Infrastructure\Interfaces\ResourceInterface;
-use App\Infrastructure\Interfaces\ResourceRepositoryInterface;
-use App\Infrastructure\Resource\TimeEntry\TimeEntryResource;
 use App\Interfaces\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
