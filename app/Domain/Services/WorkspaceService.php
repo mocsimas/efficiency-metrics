@@ -23,10 +23,12 @@ class WorkspaceService
     public function createWorkspaces(TrackerEnum $trackerEnum, Collection $workspaces) {
         $service = $trackerEnum->getService();
 
-        foreach($this->workspacesGenerator($workspaces) as $workspace) {
-            if(!$this->repository->find('tracker_workspace_id', $workspace[$trackerEnum->getTrackerIdKey(Workspace::class)]))
-                $this->repository->create($service->mapWorkspace($workspace));
-        }
+        foreach($this->workspacesGenerator($workspaces) as $workspace)
+            $this->repository->updateOrCreate(
+                'tracker_workspace_id',
+                $workspace[$trackerEnum->getTrackerIdKey(Workspace::class)],
+                $service->mapWorkspace($workspace)
+            );
 
         // TODO: add notification informing that workspaces scrape has been finished
     }

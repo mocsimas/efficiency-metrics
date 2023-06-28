@@ -20,13 +20,15 @@ class TimeEntry extends BaseModel
         'tracker_time_entry_id',
         'tracker_title',
         'tracker_user_id',
-        'workspace_uuid',
-        'project_uuid',
-        'task_uuid',
+//        'workspace_uuid',
+//        'project_uuid',
+//        'task_uuid',
     ];
 
     protected $casts = [
-        'tracker' => TrackerEnum::class
+        'tracker' => TrackerEnum::class,
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
     ];
 
     public function transform() {

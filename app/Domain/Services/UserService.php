@@ -23,10 +23,12 @@ class UserService
     public function createUsers(TrackerEnum $trackerEnum, Collection $users) {
         $service = $trackerEnum->getService();
 
-        foreach($this->usersGenerator($users) as $user) {
-            if(!$this->repository->find('tracker_user_id', $user[$trackerEnum->getTrackerIdKey(User::class)]))
-                $this->repository->create($service->mapUser($user));
-        }
+        foreach($this->usersGenerator($users) as $user)
+            $this->repository->updateOrCreate(
+                'tracker_user_id',
+                $user[$trackerEnum->getTrackerIdKey(User::class)],
+                $service->mapUser($user)
+            );
 
         // TODO: add notification informing that users scrape has been finished
     }

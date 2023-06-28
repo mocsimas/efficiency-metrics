@@ -5,7 +5,7 @@ namespace App\Domain\Services;
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\TimeEntry\TimeEntryRepository;
 use App\Infrastructure\Enums\TrackerEnum;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class TimeEntryService
 {
@@ -27,7 +27,7 @@ class TimeEntryService
             $this->repository->updateOrCreate(
                 'tracker_time_entry_id',
                 $timeEntry[$trackerEnum->getTrackerIdKey(TimeEntry::class)],
-                $service->mapWorkspace($timeEntry),
+                $service->mapTimeEntry($timeEntry),
             );
 
         // TODO: add notification informing that time entries scrape has been finished

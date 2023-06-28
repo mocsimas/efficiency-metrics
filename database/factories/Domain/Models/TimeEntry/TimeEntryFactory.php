@@ -24,9 +24,9 @@ class TimeEntryFactory extends Factory
             'tracker_time_entry_id' => $this->faker->numberBetween(1000000, 99999999),
             'tracker_title' => $this->faker->name(),
             'tracker_user_id' => $this->faker->numberBetween(100000, 9999999),
-            'workspace_uuid' => $this->faker->numberBetween(100000, 9999999),
-            'project_uuid' => $this->faker->numberBetween(100000, 9999999),
-            'task_uuid' => $this->faker->numberBetween(100000, 9999999),
+//            'workspace_uuid' => $this->faker->numberBetween(100000, 9999999),
+//            'project_uuid' => $this->faker->numberBetween(100000, 9999999),
+//            'task_uuid' => $this->faker->numberBetween(100000, 9999999),
         ];
     }
 }
