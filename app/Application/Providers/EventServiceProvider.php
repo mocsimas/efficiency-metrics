@@ -2,6 +2,14 @@
 
 namespace App\Application\Providers;
 
+use App\Domain\Models\TimeEntry\TimeEntry;
+use App\Domain\Models\Tracker\Tracker;
+use App\Domain\Models\User\User;
+use App\Domain\Models\Workspace\Workspace;
+use App\Infrastructure\Observers\TimeEntryObserver;
+use App\Infrastructure\Observers\TrackerObserver;
+use App\Infrastructure\Observers\UserObserver;
+use App\Infrastructure\Observers\WorkspaceObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,7 +33,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Tracker::observe(TrackerObserver::class);
+        User::observe(UserObserver::class);
+        Workspace::observe(WorkspaceObserver::class);
+        TimeEntry::observe(TimeEntryObserver::class);
     }
 
     /**

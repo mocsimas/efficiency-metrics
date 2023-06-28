@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Enums;
 
+use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\User\User;
 use App\Domain\Models\Workspace\Workspace;
 use App\Domain\Services\ClockifyService;
@@ -51,7 +52,7 @@ enum TrackerEnum: string
     public function getTrackerIdKey($namespace): string {
         return match($this) {
             self::CLOCKIFY => match($namespace) {
-                User::class, Workspace::class => 'id',
+                default => 'id',
             },
         };
     }

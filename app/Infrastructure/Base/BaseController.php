@@ -34,4 +34,14 @@ abstract class BaseController extends Controller
             'errors' => $errors,
         ], $code);
     }
+
+    public function index() {
+        try {
+            $workspaces = $this->repository->index();
+
+            return $this->response($workspaces);
+        }catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), [], $exception->getCode());
+        }
+    }
 }
