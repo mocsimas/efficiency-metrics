@@ -9,6 +9,8 @@ class TimeEntryRepository extends ResourceRepository
 {
     use HasTrackerTrait;
 
+    protected const ORDER = 'started_at';
+
     public function __construct(TimeEntry $model) {
         $this->model = $model;
     }
