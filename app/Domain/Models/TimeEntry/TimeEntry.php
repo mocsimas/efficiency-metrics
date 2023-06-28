@@ -4,9 +4,13 @@ namespace App\Domain\Models\TimeEntry;
 
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
+use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Resource\TimeEntry\TimeEntryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 
-class TimeEntry extends BaseModel
+class TimeEntry extends BaseModel implements ResourceInterface
 {
     use HasFactory;
 
@@ -31,11 +35,11 @@ class TimeEntry extends BaseModel
         'ended_at' => 'datetime',
     ];
 
-    public function transform() {
-//        return new {{ resource }}($this);
+    public function transform(): JsonResource {
+        return new TimeEntryResource($this);
     }
 
-    //public static function transformCollection($data) {
-    //    return {{ resource }}::collection($data);
-    //}
+    public static function collection($data): JsonResource {
+        return TimeEntryResource::collection($data);
+    }
 }

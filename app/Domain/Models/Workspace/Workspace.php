@@ -4,9 +4,12 @@ namespace App\Domain\Models\Workspace;
 
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
+use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Resource\Workspace\WorkspaceResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class Workspace extends BaseModel
+class Workspace extends BaseModel implements ResourceInterface
 {
     use HasFactory;
 
@@ -22,11 +25,11 @@ class Workspace extends BaseModel
         'tracker' => TrackerEnum::class
     ];
 
-    //public function transform() {
-    //    return new {{ resource }}($this);
-    //}
+    public function transform(): JsonResource {
+        return new WorkspaceResource($this);
+    }
 
-    //public static function transformCollection($data) {
-    //    return {{ resource }}::collection($data);
-    //}
+    public static function collection($data): JsonResource {
+        return WorkspaceResource::collection($data);
+    }
 }

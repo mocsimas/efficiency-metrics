@@ -11,4 +11,3 @@ createApp(App)
     .use(router)
     .mount("#app")
 
-import 'bootstrap/dist/css/bootstrap.min.css'
