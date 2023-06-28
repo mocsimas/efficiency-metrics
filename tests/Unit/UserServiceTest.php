@@ -7,7 +7,7 @@ use App\Domain\Services\UserService;
 use App\Infrastructure\Base\BaseUnitTest;
 use App\Infrastructure\Enums\TrackerEnum;
 
-class UserServiceTest extends BaseUnitTest
+final class UserServiceTest extends BaseUnitTest
 {
     private readonly UserService $service;
 

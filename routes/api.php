@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Interfaces\Http\Controllers\Tracker\TrackerController;
 use \App\Interfaces\Http\Controllers\Workspace\WorkspaceController;
 use \App\Interfaces\Http\Controllers\User\UserController;
+use \App\Interfaces\Http\Controllers\TimeEntry\TimeEntryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,10 @@ Route::prefix('/users')->group(function() {
     Route::get('/', [UserController::class, 'index']);
 });
 
+Route::prefix('/time-entries')->group(function() {
+    Route::get('/', [TimeEntryController::class, 'index']);
+});
+
 Route::prefix("/{tracker}/workspaces")->group(function() {
     Route::get('/', [TrackerController::class, 'workspaces']);
     Route::post('/scrape', [TrackerController::class, 'scrapeWorkspaces']);
@@ -32,4 +37,9 @@ Route::prefix("/{tracker}/workspaces")->group(function() {
 Route::prefix("/{tracker}/users")->group(function() {
     Route::get('/', [TrackerController::class, 'users']);
     Route::post('/scrape', [TrackerController::class, 'scrapeUsers']);
+});
+
+Route::prefix("/{tracker}/time-entries")->group(function() {
+    Route::get('/', [TrackerController::class, 'timeEntries']);
+    Route::post('/scrape', [TrackerController::class, 'scrapeTimeEntries']);
 });

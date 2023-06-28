@@ -12,4 +12,6 @@ interface ResourceRepositoryInterface
     public function find(string $key, $value): ?BaseModel;
 
     public function create(array $values): ?BaseModel;
+
+//    public function update(): ?BaseModel;
 }

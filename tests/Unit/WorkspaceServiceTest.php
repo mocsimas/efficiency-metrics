@@ -9,7 +9,7 @@ use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\CreatesApplication;
 
-class WorkspaceServiceTest extends BaseUnitTest
+final class WorkspaceServiceTest extends BaseUnitTest
 {
     private readonly WorkspaceService $service;
 
