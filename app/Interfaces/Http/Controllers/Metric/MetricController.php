@@ -2,6 +2,8 @@
 
 namespace App\Interfaces\Http\Controllers\Metric;
 
+use App\Domain\Models\Workspace\Workspace;
+use App\Domain\Models\Workspace\WorkspaceRepository;
 use App\Domain\Services\MetricsService;
 use App\Infrastructure\Base\BaseController;
 use Illuminate\Http\JsonResponse;
@@ -13,9 +15,20 @@ class MetricController extends BaseController
         protected readonly MetricsService $service,
     ) {}
 
-    public function monthHours(): JsonResponse {
+    public function validator(Request $request, string $type) {
+        return match($type) {
+            'hours' => $request->validate([
+                'year' => 'required|date_format:Y',
+                'month' => 'required|date_format:n',
+            ]),
+        };
+    }
+
+    public function duration(Workspace $workspace, Request $request): JsonResponse {
+        $payload = $this->validator($request, 'hours');
+
         try {
-            return $this->response($this->service->monthHours(2023, 6));
+            return $this->response($this->service->duration($payload['year'], $payload['month'], $workspace));
         } catch(\Exception $exception) {
             return $this->error($exception->getMessage(), [], $exception->getCode());
         }

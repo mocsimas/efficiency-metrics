@@ -2,14 +2,16 @@
 
 namespace App\Domain\Models\TimeEntry;
 
+use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\ResourceRepository;
+use App\Infrastructure\Traits\Repository\HasScrapeDateTrait;
 use App\Infrastructure\Traits\Repository\HasTrackerTrait;
 use Illuminate\Support\Facades\DB;
 use Time;
 
 class TimeEntryRepository extends ResourceRepository
 {
-    use HasTrackerTrait;
+    use HasTrackerTrait, HasScrapeDateTrait;
 
     protected const ORDER = 'started_at';
 
@@ -21,12 +23,16 @@ class TimeEntryRepository extends ResourceRepository
         return [new TimeEntry()];
     }
 
-    public function monthHours(int $year, int $month): string {
-        $duration = $this->getModelQueryBuilder()
-            ->whereYear('started_at', '=', $year)
-            ->whereMonth('started_at', '=', $month)
-            ->sum('duration');
+    public function monthHours(int $year, int $month, ?Workspace $workspace): string {
+        $query = $this->getModelQueryBuilder();
 
-        return Time::secondsToDuration($duration);
+        if($workspace)
+            $query = $query->whereRelation('workspace', 'uuid', '=', $workspace->uuid);
+
+        $query = $query
+            ->whereYear('started_at', '=', $year)
+            ->whereMonth('started_at', '=', $month);
+
+        return Time::secondsToDuration($query->sum('duration'));
     }
 }

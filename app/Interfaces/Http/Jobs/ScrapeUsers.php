@@ -23,6 +23,6 @@ class ScrapeUsers implements ShouldQueue
 
     public function handle(UserService $service): void
     {
-        $service->createUsers($this->trackerEnum, $this->users);
+        $service->createUsers($this->trackerEnum, $this->users, new \DateTime());
     }
 }

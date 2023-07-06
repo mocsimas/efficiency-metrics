@@ -36,7 +36,7 @@ final class UserServiceTest extends BaseUnitTest
             ],
         ]);
 
-        $this->service->createUsers($trackerEnum, $apiUsers);
+        $this->service->createUsers($trackerEnum, $apiUsers, new \DateTime());
 
         $this->assertCount(2, User::all());
     }

@@ -186,6 +186,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Tracker' => App\Infrastructure\Facades\TrackerFacade::class,
         'Time' => App\Infrastructure\Facades\TimeFacade::class,
+        'Metrics' => App\Infrastructure\Facades\MetricsFacade::class,
     ])->toArray(),
 
 ];

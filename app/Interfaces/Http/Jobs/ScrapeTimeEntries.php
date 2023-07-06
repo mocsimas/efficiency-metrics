@@ -22,6 +22,6 @@ class ScrapeTimeEntries implements ShouldQueue
 
     public function handle(TimeEntryService $service): void
     {
-        $service->createTimeEntries($this->trackerEnum, $this->timeEntries);
+        $service->createTimeEntries($this->trackerEnum, $this->timeEntries, new \DateTime());
     }
 }

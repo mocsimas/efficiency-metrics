@@ -12,15 +12,17 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('title');
             $table->datetime('started_at');
-            $table->datetime('ended_at');
+            $table->datetime('ended_at')->nullable();
             $table->unsignedMediumInteger('duration');
             $table->string('tracker');
             $table->string('tracker_time_entry_id');
             $table->string('tracker_title');
-            $table->string('tracker_user_id');
+            $table->uuid('user_uuid');
+            $table->uuid('workspace_uuid');
 //            $table->uuid('workspace_uuid');
 //            $table->uuid('project_uuid');
 //            $table->uuid('task_uuid')->nullable();
+            $table->datetime('scrape_date');
             $table->timestamps();
         });
     }

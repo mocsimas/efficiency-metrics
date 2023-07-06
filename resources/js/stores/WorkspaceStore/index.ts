@@ -1,11 +1,11 @@
 import {defineStore} from "pinia";
 import {useBaseStore} from "../BaseStore";
 
-export const useTimeEntryStore = defineStore('timeEntryStore', () => {
+export const useWorkspaceStore = defineStore('workspaceStore', () => {
 	const baseStore = useBaseStore()
 
 	return {
 		...baseStore,
-		fetch: () => baseStore.fetch('time-entries'),
+		fetch: () => baseStore.fetch('workspaces'),
 	}
 })

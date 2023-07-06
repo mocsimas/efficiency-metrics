@@ -9,11 +9,11 @@ interface TrackerServiceInterface
 {
     public function getTrackerEnum(): TrackerEnum;
 
-    public function mapWorkspace(array $workspace): array;
+    public function mapWorkspace(array $workspace, \DateTime $scrapeDate): array;
 
-    public function mapUser(array $user): array;
+    public function mapUser(array $user, \DateTime $scrapeDate): array;
 
-    public function mapTimeEntry(array $timeEntry): array;
+    public function mapTimeEntry(array $timeEntry, \DateTime $scrapeDate): array;
 
     public function workspaces(): Collection;
 

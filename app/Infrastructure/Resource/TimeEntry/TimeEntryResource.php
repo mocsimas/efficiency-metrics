@@ -18,6 +18,8 @@ class TimeEntryResource extends JsonResource
             'ended_at' => $this->ended_at->format('Y-m-d H:i:s'),
             'duration' => Time::secondsToDuration($this->duration),
             'tracker' => $this->tracker,
+            'date' => $this->started_at->format('Y-m-d'),
+            'workspace' => $this->workspace->transform(),
 //            'tracker_time_entry_id' => $this->tracker_time_entry_id,
 //            'tracker_title' => $this->tracker_title,
 //            'tracker_user_id' => $this->tracker_user_id,

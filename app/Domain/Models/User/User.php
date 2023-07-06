@@ -20,10 +20,12 @@ class User extends BaseModel implements ResourceInterface
         'tracker',
         'tracker_user_id',
         'tracker_name',
+        'scrape_date',
     ];
 
     protected $casts = [
-        'tracker' => TrackerEnum::class
+        'tracker' => TrackerEnum::class,
+        'scrape_date' => 'datetime',
     ];
 
     public function transform(): JsonResource {

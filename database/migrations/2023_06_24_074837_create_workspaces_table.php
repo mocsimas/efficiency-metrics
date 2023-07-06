@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('tracker');
             $table->string('tracker_workspace_id');
             $table->string('tracker_title');
+            $table->datetime('scrape_date');
             $table->timestamps();
         });
     }

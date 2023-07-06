@@ -45,6 +45,7 @@ Route::prefix('/{tracker}/time-entries')->group(function() {
     Route::post('/scrape', [TrackerController::class, 'scrapeTimeEntries']);
 });
 
-Route::prefix('/metrics')->group(function() {
-    Route::get('/hours', [MetricController::class, 'monthHours']);
+Route::prefix('/metrics/workspaces')->group(function() {
+    // TODO: add feature test
+    Route::get('/{workspace}/duration', [MetricController::class, 'duration']);
 });

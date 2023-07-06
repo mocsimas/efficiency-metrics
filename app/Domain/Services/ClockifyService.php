@@ -22,33 +22,43 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
 {
     private $http;
 
+    private readonly WorkspaceRepository $workspaceRepository;
+
+    private readonly UserRepository $userRepository;
+
     public function __construct() {
         $this->http = Http::{$this->getTrackerEnum()->getHttpMacroName()}();
+
+        $this->workspaceRepository = WorkspaceRepository::getInstance();
+
+        $this->userRepository = UserRepository::getInstance();
     }
 
     public function getTrackerEnum(): TrackerEnum {
         return TrackerEnum::CLOCKIFY;
     }
 
-    public function mapWorkspace(array $workspace): array {
+    public function mapWorkspace(array $workspace, \DateTime $scrapeDate): array {
         return [
             'title' => $workspace['name'],
             'tracker' => $this->getTrackerEnum()->value,
             'tracker_workspace_id' => $workspace[$this->getTrackerEnum()->getTrackerIdKey(Workspace::class)],
             'tracker_title' => $workspace['name'],
+            'scrape_date' => $scrapeDate,
         ];
     }
 
-    public function mapUser(array $user): array {
+    public function mapUser(array $user, \DateTime $scrapeDate): array {
         return [
             'name' => $user['name'],
             'tracker' => $this->getTrackerEnum()->value,
             'tracker_user_id' => $user[$this->getTrackerEnum()->getTrackerIdKey(User::class)],
             'tracker_name' => $user['name'],
+            'scrape_date' => $scrapeDate,
         ];
     }
 
-    public function mapTimeEntry(array $timeEntry): array {
+    public function mapTimeEntry(array $timeEntry, \DateTime $scrapeDate): array {
         return [
             'title' => $timeEntry['description'],
             'started_at' => Carbon::parse($timeEntry['timeInterval']['start']),
@@ -56,7 +66,9 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
             'tracker' => $this->getTrackerEnum()->value,
             'tracker_time_entry_id' => $timeEntry[$this->getTrackerEnum()->getTrackerIdKey(TimeEntry::class)],
             'tracker_title' => $timeEntry['description'],
-            'tracker_user_id' => $timeEntry['userId'],
+            'user_uuid' => $this->userRepository->find('tracker_user_id', $timeEntry['userId'])->uuid,
+            'workspace_uuid' => $this->workspaceRepository->find('tracker_workspace_id', $timeEntry['workspaceId'])->uuid,
+            'scrape_date' => $scrapeDate,
 //            'workspace_uuid' => null,
 //            'project_uuid' => null,
 //            'task_uuid' => null,

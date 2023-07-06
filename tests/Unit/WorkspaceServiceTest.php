@@ -38,7 +38,7 @@ final class WorkspaceServiceTest extends BaseUnitTest
             ],
         ]);
 
-        $this->service->createWorkspaces($trackerEnum, $apiWorkspaces);
+        $this->service->createWorkspaces($trackerEnum, $apiWorkspaces, new \DateTime());
 
         $this->assertCount(2, Workspace::all());
     }

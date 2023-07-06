@@ -24,6 +24,6 @@ class ScrapeWorkspaces implements ShouldQueue
 
     public function handle(WorkspaceService $service): void
     {
-        $service->createWorkspaces($this->trackerEnum, $this->workspaces);
+        $service->createWorkspaces($this->trackerEnum, $this->workspaces, new \DateTime());
     }
 }
