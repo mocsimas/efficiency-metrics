@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('tracker');
             $table->string('tracker_user_id');
             $table->string('tracker_name');
-            $table->datetime('scrape_date');
+            $table->datetime('import_date');
             $table->timestamps();
         });
     }

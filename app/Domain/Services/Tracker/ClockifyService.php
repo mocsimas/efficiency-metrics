@@ -1,22 +1,27 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\Services\Tracker;
 
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\User\User;
 use App\Domain\Models\User\UserRepository;
 use App\Domain\Models\Workspace\Workspace;
 use App\Domain\Models\Workspace\WorkspaceRepository;
+use App\Domain\Services\TimeEntryService;
+use App\Domain\Services\TrackerService;
+use App\Domain\Services\UserService;
+use App\Domain\Services\WorkspaceService;
 use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
-use App\Interfaces\Http\Jobs\ScrapeTimeEntries;
-use App\Interfaces\Http\Jobs\ScrapeUsers;
-use App\Interfaces\Http\Jobs\ScrapeWorkspaces;
+use App\Interfaces\Http\Jobs\Import\ImportTimeEntries;
+use App\Interfaces\Http\Jobs\Import\ImportUsers;
+use App\Interfaces\Http\Jobs\Import\ImportWorkspaces;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
+use function collect;
 
 class ClockifyService extends TrackerService implements TrackerServiceInterface
 {
@@ -38,27 +43,27 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         return TrackerEnum::CLOCKIFY;
     }
 
-    public function mapWorkspace(array $workspace, \DateTime $scrapeDate): array {
+    public function mapWorkspace(array $workspace, \DateTime $importDate): array {
         return [
             'title' => $workspace['name'],
             'tracker' => $this->getTrackerEnum()->value,
             'tracker_workspace_id' => $workspace[$this->getTrackerEnum()->getTrackerIdKey(Workspace::class)],
             'tracker_title' => $workspace['name'],
-            'scrape_date' => $scrapeDate,
+            'import_date' => $importDate,
         ];
     }
 
-    public function mapUser(array $user, \DateTime $scrapeDate): array {
+    public function mapUser(array $user, \DateTime $importDate): array {
         return [
             'name' => $user['name'],
             'tracker' => $this->getTrackerEnum()->value,
             'tracker_user_id' => $user[$this->getTrackerEnum()->getTrackerIdKey(User::class)],
             'tracker_name' => $user['name'],
-            'scrape_date' => $scrapeDate,
+            'import_date' => $importDate,
         ];
     }
 
-    public function mapTimeEntry(array $timeEntry, \DateTime $scrapeDate): array {
+    public function mapTimeEntry(array $timeEntry, \DateTime $importDate): array {
         return [
             'title' => $timeEntry['description'],
             'started_at' => Carbon::parse($timeEntry['timeInterval']['start']),
@@ -68,7 +73,7 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
             'tracker_title' => $timeEntry['description'],
             'user_uuid' => $this->userRepository->find('tracker_user_id', $timeEntry['userId'])->uuid,
             'workspace_uuid' => $this->workspaceRepository->find('tracker_workspace_id', $timeEntry['workspaceId'])->uuid,
-            'scrape_date' => $scrapeDate,
+            'import_date' => $importDate,
 //            'workspace_uuid' => null,
 //            'project_uuid' => null,
 //            'task_uuid' => null,
@@ -88,10 +93,15 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         return collect($response->json());
     }
 
-    public function scrapeWorkspaces(): bool {
+    public function importWorkspaces(): bool {
         $workspaces = $this->workspaces();
 
-        ScrapeWorkspaces::dispatch($this->getTrackerEnum(), $workspaces);
+        try {
+            (new WorkspaceService())->createWorkspaces($this->getTrackerEnum(), $workspaces, new \DateTime());
+        } catch(\Exception $exception) {
+            return false;
+        }
+//        ImportWorkspaces::dispatch($this->getTrackerEnum(), $workspaces);
 
         return true;
     }
@@ -109,10 +119,15 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         return collect([$response->json()]);
     }
 
-    public function scrapeUsers(): bool {
+    public function importUsers(): bool {
         $users = $this->users();
 
-        ScrapeUsers::dispatch($this->getTrackerEnum(), $users);
+        try {
+            (new UserService())->createUsers($this->getTrackerEnum(), $users, new \DateTime());
+        } catch(\Exception $exception) {
+            return false;
+        }
+//        ImportUsers::dispatch($this->getTrackerEnum(), $users);
 
         return true;
     }
@@ -140,10 +155,15 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         return $timeEntries;
     }
 
-    public function scrapeTimeEntries(): bool {
+    public function importTimeEntries(): bool {
         $timeEntries = $this->timeEntries(1, 1000);
 
-        ScrapeTimeEntries::dispatch($this->getTrackerEnum(), $timeEntries);
+        try {
+            (new TimeEntryService())->createTimeEntries($this->getTrackerEnum(), $timeEntries, new \DateTime());
+        } catch(\Exception $exception) {
+            return false;
+        }
+//        ImportTimeEntries::dispatch($this->getTrackerEnum(), $timeEntries);
 
         return true;
     }

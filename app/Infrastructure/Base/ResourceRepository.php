@@ -19,7 +19,7 @@ abstract class ResourceRepository extends BaseRepository implements ResourceRepo
         return $this->getModelQueryBuilder()->where($key, $value)->first();
     }
 
-    public function create(array $values): ?BaseModel {
+    public function create(array $values): BaseModel {
         return $this->getModelQueryBuilder()->create($values);
     }
 
@@ -29,6 +29,9 @@ abstract class ResourceRepository extends BaseRepository implements ResourceRepo
 
         if(!in_array($key, $this->model->getFillable()))
             throw new \Exception('Invalid key provided.');
+
+        if(!array_key_exists($key, $data))
+            throw new \Exception('Key is not in the payload.');
 
         $model = $this->find($key, $data[$key]);
 

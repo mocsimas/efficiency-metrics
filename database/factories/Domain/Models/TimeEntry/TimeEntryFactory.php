@@ -30,7 +30,7 @@ class TimeEntryFactory extends Factory
 //            'workspace_uuid' => $this->faker->numberBetween(100000, 9999999),
 //            'project_uuid' => $this->faker->numberBetween(100000, 9999999),
 //            'task_uuid' => $this->faker->numberBetween(100000, 9999999),
-            'scrape_date' => $this->faker->dateTime(),
+            'import_date' => $this->faker->dateTime(),
         ];
     }
 }

@@ -24,11 +24,11 @@ class MetricController extends BaseController
         };
     }
 
-    public function duration(Workspace $workspace, Request $request): JsonResponse {
+    public function workspaceDuration(Workspace $workspace, Request $request): JsonResponse {
         $payload = $this->validator($request, 'hours');
 
         try {
-            return $this->response($this->service->duration($payload['year'], $payload['month'], $workspace));
+            return $this->response($this->service->workspaceDuration($payload['year'], $payload['month'], $workspace));
         } catch(\Exception $exception) {
             return $this->error($exception->getMessage(), [], $exception->getCode());
         }

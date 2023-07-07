@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('time_entries', function (Blueprint $table) {
-            $table->uuid('uuid');
+            $table->uuid()->unique();
             $table->string('title');
             $table->datetime('started_at');
             $table->datetime('ended_at')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
 //            $table->uuid('workspace_uuid');
 //            $table->uuid('project_uuid');
 //            $table->uuid('task_uuid')->nullable();
-            $table->datetime('scrape_date');
+            $table->datetime('import_date');
             $table->timestamps();
         });
     }

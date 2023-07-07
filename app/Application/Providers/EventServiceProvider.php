@@ -2,10 +2,15 @@
 
 namespace App\Application\Providers;
 
+use App\Domain\Events\Import\ImportEnded;
+use App\Domain\Events\Import\ImportFailed;
+use App\Domain\Events\Import\ImportStarted;
+use App\Domain\Models\Import\Import;
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\Tracker\Tracker;
 use App\Domain\Models\User\User;
 use App\Domain\Models\Workspace\Workspace;
+use App\Infrastructure\Observers\ImportObserver;
 use App\Infrastructure\Observers\TimeEntryObserver;
 use App\Infrastructure\Observers\TrackerObserver;
 use App\Infrastructure\Observers\UserObserver;
@@ -26,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ImportStarted::class => [],
+        ImportEnded::class => [],
+        ImportFailed::class => [],
     ];
 
     /**
@@ -37,6 +45,7 @@ class EventServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Workspace::observe(WorkspaceObserver::class);
         TimeEntry::observe(TimeEntryObserver::class);
+        Import::observe(ImportObserver::class);
     }
 
     /**

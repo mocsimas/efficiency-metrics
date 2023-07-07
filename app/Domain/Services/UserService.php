@@ -20,18 +20,16 @@ class UserService
             yield (array) $user;
     }
 
-    public function createUsers(TrackerEnum $trackerEnum, Collection $users, \DateTime $scrapeDate) {
+    public function createUsers(TrackerEnum $trackerEnum, Collection $users, \DateTime $importDate) {
         $service = $trackerEnum->getService();
 
         foreach($this->usersGenerator($users) as $user)
             $this->repository->updateOrCreate(
                 'tracker_user_id',
                 $user[$trackerEnum->getTrackerIdKey(User::class)],
-                $service->mapUser($user, $scrapeDate),
+                $service->mapUser($user, $importDate),
             );
 
-        $this->repository->deleteEarlierScraped($scrapeDate);
-
-        // TODO: add notification informing that users scrape has been finished
+        $this->repository->deleteEarlierImported($importDate);
     }
 }

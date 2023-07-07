@@ -29,14 +29,14 @@ class TimeEntry extends BaseModel implements ResourceInterface
 //        'workspace_uuid',
 //        'project_uuid',
 //        'task_uuid',
-        'scrape_date',
+        'import_date',
     ];
 
     protected $casts = [
         'tracker' => TrackerEnum::class,
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
-        'scrape_date' => 'datetime',
+        'import_date' => 'datetime',
     ];
 
     public function transform(): JsonResource {

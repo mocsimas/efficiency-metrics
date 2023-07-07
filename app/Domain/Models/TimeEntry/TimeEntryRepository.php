@@ -4,14 +4,14 @@ namespace App\Domain\Models\TimeEntry;
 
 use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\ResourceRepository;
-use App\Infrastructure\Traits\Repository\HasScrapeDateTrait;
+use App\Infrastructure\Traits\Repository\HasImportDateTrait;
 use App\Infrastructure\Traits\Repository\HasTrackerTrait;
 use Illuminate\Support\Facades\DB;
 use Time;
 
 class TimeEntryRepository extends ResourceRepository
 {
-    use HasTrackerTrait, HasScrapeDateTrait;
+    use HasTrackerTrait, HasImportDateTrait;
 
     protected const ORDER = 'started_at';
 

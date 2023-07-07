@@ -19,12 +19,12 @@ class Workspace extends BaseModel implements ResourceInterface
         'tracker',
         'tracker_workspace_id',
         'tracker_title',
-        'scrape_date',
+        'import_date',
     ];
 
     protected $casts = [
         'tracker' => TrackerEnum::class,
-        'scrape_date' => 'datetime',
+        'import_date' => 'datetime',
     ];
 
     public function transform(): JsonResource {

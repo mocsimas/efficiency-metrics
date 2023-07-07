@@ -6,7 +6,7 @@ use \App\Interfaces\Http\Controllers\Workspace\WorkspaceController;
 use \App\Interfaces\Http\Controllers\User\UserController;
 use \App\Interfaces\Http\Controllers\TimeEntry\TimeEntryController;
 use \App\Interfaces\Http\Controllers\Metric\MetricController;
-
+use \App\Interfaces\Http\Controllers\Import\ImportController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,6 +17,10 @@ use \App\Interfaces\Http\Controllers\Metric\MetricController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::prefix('import')->group(function() {
+   Route::post('/', [ImportController::class, 'import']);
+});
 
 Route::prefix('/workspaces')->group(function() {
     Route::get('/', [WorkspaceController::class, 'index']);
@@ -32,20 +36,19 @@ Route::prefix('/time-entries')->group(function() {
 
 Route::prefix('/{tracker}/workspaces')->group(function() {
     Route::get('/', [TrackerController::class, 'workspaces']);
-    Route::post('/scrape', [TrackerController::class, 'scrapeWorkspaces']);
+    Route::post('/import', [TrackerController::class, 'importWorkspaces']);
 });
 
 Route::prefix('/{tracker}/users')->group(function() {
     Route::get('/', [TrackerController::class, 'users']);
-    Route::post('/scrape', [TrackerController::class, 'scrapeUsers']);
+    Route::post('/import', [TrackerController::class, 'importUsers']);
 });
 
 Route::prefix('/{tracker}/time-entries')->group(function() {
     Route::get('/', [TrackerController::class, 'timeEntries']);
-    Route::post('/scrape', [TrackerController::class, 'scrapeTimeEntries']);
+    Route::post('/import', [TrackerController::class, 'importTimeEntries']);
 });
 
 Route::prefix('/metrics/workspaces')->group(function() {
-    // TODO: add feature test
-    Route::get('/{workspace}/duration', [MetricController::class, 'duration']);
+    Route::get('/{workspace}/duration', [MetricController::class, 'workspaceDuration']);
 });

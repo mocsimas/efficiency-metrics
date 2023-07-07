@@ -9,12 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('workspaces', function (Blueprint $table) {
-            $table->uuid('uuid')->unique();
+            $table->uuid()->unique();
             $table->string('title');
             $table->string('tracker');
             $table->string('tracker_workspace_id');
             $table->string('tracker_title');
-            $table->datetime('scrape_date');
+            $table->datetime('import_date');
             $table->timestamps();
         });
     }

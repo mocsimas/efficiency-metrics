@@ -23,9 +23,9 @@ final class TrackerController extends ResourceController
         }
     }
 
-    public function scrapeWorkspaces(): JsonResponse {
+    public function importWorkspaces(): JsonResponse {
         try {
-            $workspaces = $this->service->scrapeWorkspaces();
+            $workspaces = $this->service->importWorkspaces();
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
@@ -43,9 +43,9 @@ final class TrackerController extends ResourceController
         }
     }
 
-    public function scrapeUsers(): JsonResponse {
+    public function importUsers(): JsonResponse {
         try {
-            $users = $this->service->scrapeUsers();
+            $users = $this->service->importUsers();
 
             return $this->response($users);
         } catch (\Exception $exception) {
@@ -63,9 +63,9 @@ final class TrackerController extends ResourceController
         }
     }
 
-    public function scrapeTimeEntries(): JsonResponse {
+    public function importTimeEntries(): JsonResponse {
         try {
-            $timeEntries = $this->service->scrapeTimeEntries();
+            $timeEntries = $this->service->importTimeEntries();
 
             return $this->response($timeEntries);
         } catch (\Exception $exception) {

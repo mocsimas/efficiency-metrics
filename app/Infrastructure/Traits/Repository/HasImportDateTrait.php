@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Traits\Repository;
 
 
-trait HasScrapeDateTrait
+trait HasImportDateTrait
 {
 //    public function findByTracker(TrackerEnum $trackerEnum): Collection {
 //        return $this->getModelQueryBuilder()->where([
@@ -11,9 +11,9 @@ trait HasScrapeDateTrait
 //        ])->get();
 //    }
 
-    public function deleteEarlierScraped(\DateTime $scrapeDate) {
+    public function deleteEarlierImported(\DateTime $importDate) {
         return $this->getModelQueryBuilder()->where([
-            ['scrape_date', '<', $scrapeDate->format('Y-m-d H:i:s')],
+            ['import_date', '<', $importDate->format('Y-m-d H:i:s')],
         ])->delete();
     }
 }

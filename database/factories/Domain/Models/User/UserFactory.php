@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'tracker' => TrackerEnum::CLOCKIFY->value,
             'tracker_user_id' => $this->faker->numberBetween(100000, 99999999),
             'tracker_name' => $this->faker->name(),
-            'scrape_date' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
+            'import_date' => $this->faker->dateTime()->format('Y-m-d H:i:s'),
         ];
     }
 }

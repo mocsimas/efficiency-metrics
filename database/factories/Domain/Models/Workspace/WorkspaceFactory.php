@@ -20,7 +20,7 @@ class WorkspaceFactory extends Factory
             'tracker' => TrackerEnum::CLOCKIFY->value,
             'tracker_workspace_id' => $this->faker->numberBetween(1000000, 99999999),
             'tracker_title' => $this->faker->name(),
-            'scrape_date' => $this->faker->dateTime(),
+            'import_date' => $this->faker->dateTime(),
         ];
     }
 }

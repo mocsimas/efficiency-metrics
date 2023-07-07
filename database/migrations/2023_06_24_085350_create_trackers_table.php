@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('trackers', function (Blueprint $table) {
-            $table->uuid('uuid');
+            $table->uuid();
             $table->string('type')->unique();
             $table->string('key')->nullable();
             $table->timestamps();

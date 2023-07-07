@@ -21,19 +21,17 @@ class TimeEntryService
             yield (array) $timeEntry;
     }
 
-    public function createTimeEntries(TrackerEnum $trackerEnum, Collection $timeEntries, \DateTime $scrapeDate) {
+    public function createTimeEntries(TrackerEnum $trackerEnum, Collection $timeEntries, \DateTime $importDate) {
         $service = $trackerEnum->getService();
 
         foreach($this->timeEntriesGenerator($timeEntries) as $timeEntry) {
             $this->repository->updateOrCreate(
                 'tracker_time_entry_id',
                 $timeEntry[$trackerEnum->getTrackerIdKey(TimeEntry::class)],
-                $service->mapTimeEntry($timeEntry, $scrapeDate),
+                $service->mapTimeEntry($timeEntry, $importDate),
             );
         }
 
-        $this->repository->deleteEarlierScraped($scrapeDate);
-
-        // TODO: add notification informing that time entries scrape has been finished
+        $this->repository->deleteEarlierImported($importDate);
     }
 }
