@@ -1,10 +1,11 @@
 import {defineStore} from "pinia";
-import state from './state'
-import getters from './getters'
-import actions from './actions'
+import {useBaseStore} from "../BaseStore";
 
-export const useTimeEntryStore = defineStore('timeEntryStore', {
-	state,
-	getters,
-	actions,
+export const useTimeEntryStore = defineStore('timeEntryStore', () => {
+	const baseStore = useBaseStore()
+
+	return {
+		...baseStore,
+		fetch: () => baseStore.fetch('time-entries'),
+	}
 })

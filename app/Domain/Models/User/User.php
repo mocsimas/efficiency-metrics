@@ -8,7 +8,6 @@ use App\Infrastructure\Interfaces\ResourceInterface;
 use App\Infrastructure\Resource\User\UserResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection;
 
 class User extends BaseModel implements ResourceInterface
 {
@@ -20,10 +19,12 @@ class User extends BaseModel implements ResourceInterface
         'tracker',
         'tracker_user_id',
         'tracker_name',
+        'import_date',
     ];
 
     protected $casts = [
-        'tracker' => TrackerEnum::class
+        'tracker' => TrackerEnum::class,
+        'import_date' => 'datetime',
     ];
 
     public function transform(): JsonResource {

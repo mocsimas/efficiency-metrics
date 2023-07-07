@@ -2,6 +2,7 @@
 
 namespace App\Domain\Models\TimeEntry;
 
+use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\ResourceInterface;
@@ -23,16 +24,19 @@ class TimeEntry extends BaseModel implements ResourceInterface
         'tracker',
         'tracker_time_entry_id',
         'tracker_title',
-        'tracker_user_id',
+        'user_uuid',
+        'workspace_uuid',
 //        'workspace_uuid',
 //        'project_uuid',
 //        'task_uuid',
+        'import_date',
     ];
 
     protected $casts = [
         'tracker' => TrackerEnum::class,
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
+        'import_date' => 'datetime',
     ];
 
     public function transform(): JsonResource {
@@ -41,5 +45,9 @@ class TimeEntry extends BaseModel implements ResourceInterface
 
     public static function collection($data): JsonResource {
         return TimeEntryResource::collection($data);
+    }
+
+    public function workspace() {
+        return $this->belongsTo(Workspace::class, 'workspace_uuid', 'uuid');
     }
 }

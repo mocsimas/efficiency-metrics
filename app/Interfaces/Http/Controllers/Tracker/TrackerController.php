@@ -3,10 +3,11 @@
 namespace App\Interfaces\Http\Controllers\Tracker;
 
 use App\Infrastructure\Base\BaseController;
+use App\Infrastructure\Base\ResourceController;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
 use Illuminate\Http\JsonResponse;
 
-final class TrackerController extends BaseController
+final class TrackerController extends ResourceController
 {
     public function __construct(
         protected readonly TrackerServiceInterface $service,
@@ -22,9 +23,9 @@ final class TrackerController extends BaseController
         }
     }
 
-    public function scrapeWorkspaces(): JsonResponse {
+    public function importWorkspaces(): JsonResponse {
         try {
-            $workspaces = $this->service->scrapeWorkspaces();
+            $workspaces = $this->service->importWorkspaces();
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
@@ -42,9 +43,9 @@ final class TrackerController extends BaseController
         }
     }
 
-    public function scrapeUsers(): JsonResponse {
+    public function importUsers(): JsonResponse {
         try {
-            $users = $this->service->scrapeUsers();
+            $users = $this->service->importUsers();
 
             return $this->response($users);
         } catch (\Exception $exception) {
@@ -62,9 +63,9 @@ final class TrackerController extends BaseController
         }
     }
 
-    public function scrapeTimeEntries(): JsonResponse {
+    public function importTimeEntries(): JsonResponse {
         try {
-            $timeEntries = $this->service->scrapeTimeEntries();
+            $timeEntries = $this->service->importTimeEntries();
 
             return $this->response($timeEntries);
         } catch (\Exception $exception) {

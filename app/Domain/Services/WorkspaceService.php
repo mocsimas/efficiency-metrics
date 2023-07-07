@@ -20,16 +20,16 @@ class WorkspaceService
             yield (array) $workspace;
     }
 
-    public function createWorkspaces(TrackerEnum $trackerEnum, Collection $workspaces) {
+    public function createWorkspaces(TrackerEnum $trackerEnum, Collection $workspaces, \DateTime $importDate) {
         $service = $trackerEnum->getService();
 
         foreach($this->workspacesGenerator($workspaces) as $workspace)
             $this->repository->updateOrCreate(
                 'tracker_workspace_id',
                 $workspace[$trackerEnum->getTrackerIdKey(Workspace::class)],
-                $service->mapWorkspace($workspace)
+                $service->mapWorkspace($workspace, $importDate),
             );
 
-        // TODO: add notification informing that workspaces scrape has been finished
+        $this->repository->deleteEarlierImported($importDate);
     }
 }

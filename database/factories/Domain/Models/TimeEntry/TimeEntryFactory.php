@@ -3,6 +3,8 @@
 namespace Database\Factories\Domain\Models\TimeEntry;
 
 use App\Domain\Models\TimeEntry\TimeEntry;
+use App\Domain\Models\User\User;
+use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,10 +25,12 @@ class TimeEntryFactory extends Factory
             'tracker' => TrackerEnum::CLOCKIFY->value,
             'tracker_time_entry_id' => $this->faker->numberBetween(1000000, 99999999),
             'tracker_title' => $this->faker->name(),
-            'tracker_user_id' => $this->faker->numberBetween(100000, 9999999),
+            'user_uuid' => User::all()->first()?->uuid ?: User::factory()->create()->uuid,
+            'workspace_uuid' => Workspace::all()->first()?->uuid ?: Workspace::factory()->create()->uuid,
 //            'workspace_uuid' => $this->faker->numberBetween(100000, 9999999),
 //            'project_uuid' => $this->faker->numberBetween(100000, 9999999),
 //            'task_uuid' => $this->faker->numberBetween(100000, 9999999),
+            'import_date' => $this->faker->dateTime(),
         ];
     }
 }

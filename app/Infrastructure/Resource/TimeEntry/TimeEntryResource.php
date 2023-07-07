@@ -5,6 +5,7 @@ namespace App\Infrastructure\Resource\TimeEntry;
 use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Time;
 
 class TimeEntryResource extends JsonResource
 {
@@ -15,19 +16,13 @@ class TimeEntryResource extends JsonResource
             'title' => $this->title,
             'started_at' => $this->started_at->format('Y-m-d H:i:s'),
             'ended_at' => $this->ended_at->format('Y-m-d H:i:s'),
-            'duration' => $this->formatDuration($this->duration),
+            'duration' => Time::secondsToDuration($this->duration),
             'tracker' => $this->tracker,
+            'date' => $this->started_at->format('Y-m-d'),
+            'workspace' => $this->workspace->transform(),
 //            'tracker_time_entry_id' => $this->tracker_time_entry_id,
 //            'tracker_title' => $this->tracker_title,
 //            'tracker_user_id' => $this->tracker_user_id,
         ];
-    }
-
-    private function formatDuration($seconds): string {
-        $hours = floor($seconds / 3600);
-        $minutes = floor(($seconds % 3600) / 60);
-        $remainingSeconds = $seconds % 60;
-
-        return sprintf('%02d:%02d:%02d', $hours, $minutes, $remainingSeconds);
     }
 }

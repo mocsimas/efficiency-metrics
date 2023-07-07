@@ -4,7 +4,6 @@ namespace App\Domain\Services;
 
 use App\Domain\Models\Tracker\Tracker;
 use App\Infrastructure\Enums\TrackerEnum;
-use App\Interfaces\Http\Jobs\ScrapeWorkspaces;
 
 class TrackerService
 {

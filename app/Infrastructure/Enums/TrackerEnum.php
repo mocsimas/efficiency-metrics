@@ -2,10 +2,7 @@
 
 namespace App\Infrastructure\Enums;
 
-use App\Domain\Models\TimeEntry\TimeEntry;
-use App\Domain\Models\User\User;
-use App\Domain\Models\Workspace\Workspace;
-use App\Domain\Services\ClockifyService;
+use App\Domain\Services\Tracker\ClockifyService;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
 use Illuminate\Support\Facades\Http;
 use Tracker;
