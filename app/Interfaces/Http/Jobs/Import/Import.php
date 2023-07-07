@@ -4,10 +4,17 @@ namespace App\Interfaces\Http\Jobs\Import;
 
 use App\Infrastructure\Enums\ImportTypeEnum;
 use App\Infrastructure\Enums\TrackerEnum;
-use App\Interfaces\Http\Jobs\Import\Base\BaseImport;
+use App\Infrastructure\Traits\Job\Import\ImportJobTrait;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class Import extends BaseImport
+class Import implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ImportJobTrait;
+
     protected readonly ImportTypeEnum $importEnum;
 
     public function __construct()
@@ -17,17 +24,14 @@ class Import extends BaseImport
 
     public function handle(): void
     {
-        $this->beforeHandle();
+        $this->beforeHandle(null);
 
-        foreach(TrackerEnum::cases() as $trackerEnum) {
-            $service = $trackerEnum->getService();
+        foreach(TrackerEnum::cases() as $enum) {
+            $service = $enum->getService();
 
-            foreach(['importWorkspaces', 'importUsers', 'importTimeEntries'] as $method) {
-                $isSuccessful = $service->{$method}();
-
-                if(!$isSuccessful)
-                    return;
-            }
+            foreach(['importWorkspaces', 'importUsers', 'importTimeEntries'] as $method)
+                if(!$service->{$method}())
+                    throw new \Exception('Failed to import');
         }
 
         $this->afterHandle();

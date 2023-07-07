@@ -9,6 +9,7 @@ export const useImportStore = defineStore('importStore', () => {
 	const importData = async () => {
 		try {
 			isImporting.value = true
+			importFailed.value = false
 
 			await api.post('import', {})
 				.then(({data}) => {
@@ -20,6 +21,7 @@ export const useImportStore = defineStore('importStore', () => {
 				})
 		} catch (error) {
 			importFailed.value = true
+			isImporting.value = false
 		}
 	}
 

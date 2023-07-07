@@ -13,9 +13,6 @@ use App\Domain\Services\UserService;
 use App\Domain\Services\WorkspaceService;
 use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
-use App\Interfaces\Http\Jobs\Import\ImportTimeEntries;
-use App\Interfaces\Http\Jobs\Import\ImportUsers;
-use App\Interfaces\Http\Jobs\Import\ImportWorkspaces;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -101,7 +98,6 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         } catch(\Exception $exception) {
             return false;
         }
-//        ImportWorkspaces::dispatch($this->getTrackerEnum(), $workspaces);
 
         return true;
     }
@@ -127,7 +123,6 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         } catch(\Exception $exception) {
             return false;
         }
-//        ImportUsers::dispatch($this->getTrackerEnum(), $users);
 
         return true;
     }
@@ -163,7 +158,6 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         } catch(\Exception $exception) {
             return false;
         }
-//        ImportTimeEntries::dispatch($this->getTrackerEnum(), $timeEntries);
 
         return true;
     }
