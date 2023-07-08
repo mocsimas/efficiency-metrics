@@ -12,7 +12,7 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->string('title');
             $table->string('tracker');
-            $table->string('tracker_workspace_id');
+            $table->string('tracker_id');
             $table->string('tracker_title');
             $table->datetime('import_date');
             $table->timestamps();

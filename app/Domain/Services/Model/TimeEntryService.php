@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\Services\Model;
 
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\TimeEntry\TimeEntryRepository;
-use App\Domain\Models\Workspace\WorkspaceRepository;
+use App\Domain\Services\Abstract\ModelService;
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Support\Collection;
 
-class TimeEntryService
+class TimeEntryService extends ModelService
 {
     private readonly TimeEntryRepository $repository;
 
@@ -16,21 +16,15 @@ class TimeEntryService
         $this->repository = TimeEntryRepository::getInstance();
     }
 
-    private function timeEntriesGenerator(Collection $timeEntries): \Generator {
-        foreach($timeEntries as $timeEntry)
-            yield (array) $timeEntry;
-    }
-
-    public function createTimeEntries(TrackerEnum $trackerEnum, Collection $timeEntries, \DateTime $importDate) {
+    public function create(TrackerEnum $trackerEnum, Collection $collection, \DateTime $importDate): void {
         $service = $trackerEnum->getService();
 
-        foreach($this->timeEntriesGenerator($timeEntries) as $timeEntry) {
+        foreach($this->generator($collection) as $timeEntry)
             $this->repository->updateOrCreate(
-                'tracker_time_entry_id',
+                'tracker_id',
                 $timeEntry[$trackerEnum->getTrackerIdKey(TimeEntry::class)],
                 $service->mapTimeEntry($timeEntry, $importDate),
             );
-        }
 
         $this->repository->deleteEarlierImported($importDate);
     }

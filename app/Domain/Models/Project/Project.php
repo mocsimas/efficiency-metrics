@@ -1,37 +1,32 @@
 <?php
 
-namespace App\Domain\Models\User;
+namespace App\Domain\Models\Project;
 
 use App\Infrastructure\Base\BaseModel;
-use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\ResourceInterface;
-use App\Infrastructure\Resource\User\UserResource;
+use App\Infrastructure\Resource\Project\ProjectResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class User extends BaseModel implements ResourceInterface
+class Project extends BaseModel implements ResourceInterface
 {
     use HasFactory;
 
     protected $fillable = [
         'uuid',
-        'name',
+        'title',
         'tracker',
         'tracker_id',
-        'tracker_name',
+        'tracker_title',
         'import_date',
-    ];
-
-    protected $casts = [
-        'tracker' => TrackerEnum::class,
-        'import_date' => 'datetime',
+        'workspace_uuid',
     ];
 
     public function transform(): JsonResource {
-        return new UserResource($this);
+        return new ProjectResource($this);
     }
 
     public static function collection($data): JsonResource {
-        return UserResource::collection($data);
+        return ProjectResource::collection($data);
     }
 }

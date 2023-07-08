@@ -18,7 +18,7 @@ class WorkspaceFactory extends Factory
         return [
             'title' => $this->faker->name(),
             'tracker' => TrackerEnum::CLOCKIFY->value,
-            'tracker_workspace_id' => $this->faker->numberBetween(1000000, 99999999),
+            'tracker_id' => $this->faker->numberBetween(1000000, 99999999),
             'tracker_title' => $this->faker->name(),
             'import_date' => $this->faker->dateTime(),
         ];

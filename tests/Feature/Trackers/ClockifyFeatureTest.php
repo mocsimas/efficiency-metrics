@@ -59,12 +59,12 @@ final class ClockifyFeatureTest extends BaseFeatureTest
     public function can_get_all_clockify_api_time_entries() {
         Workspace::factory()->create([
             'tracker' => $this->trackerEnum->value,
-            'tracker_workspace_id' => config('tracker.clockify.test.workspace.id')
+            'tracker_id' => config('tracker.clockify.test.workspace.id')
         ]);
 
         User::factory()->create([
             'tracker' => $this->trackerEnum->value,
-            'tracker_user_id' => config('tracker.clockify.test.user.id')
+            'tracker_id' => config('tracker.clockify.test.user.id')
         ]);
 
         $response = $this->get("api/{$this->trackerEnum->value}/time-entries");

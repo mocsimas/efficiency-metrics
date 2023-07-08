@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Domain\Models\User\User;
 use App\Infrastructure\Base\BaseFeatureTest;
 
-final class UserFeatureTest extends BaseFeatureTest
+final class UserTest extends BaseFeatureTest
 {
     /** @test */
     public function can_get_all_users() {

@@ -11,4 +11,8 @@ enum ImportTypeEnum: string
     case WORKSPACES = 'workspaces';
 
     case TIME_ENTRIES = 'time_entries';
+
+    case PROJECTS = 'projects';
+
+    case TASKS = 'tasks';
 }

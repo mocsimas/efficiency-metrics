@@ -8,19 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->uuid()->unique();
-            $table->string('name');
+            $table->string('title');
             $table->string('tracker');
             $table->string('tracker_id');
-            $table->string('tracker_name');
+            $table->string('tracker_title');
             $table->datetime('import_date');
+            $table->uuid('workspace_uuid');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('projects');
     }
 };

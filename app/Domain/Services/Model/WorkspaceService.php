@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\Services\Model;
 
 use App\Domain\Models\Workspace\Workspace;
 use App\Domain\Models\Workspace\WorkspaceRepository;
+use App\Domain\Services\Abstract\ModelService;
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Support\Collection;
 
-class WorkspaceService
+class WorkspaceService extends ModelService
 {
     private readonly WorkspaceRepository $repository;
 
@@ -15,17 +16,12 @@ class WorkspaceService
         $this->repository = WorkspaceRepository::getInstance();
     }
 
-    private function workspacesGenerator(Collection $workspaces): \Generator {
-        foreach($workspaces as $workspace)
-            yield (array) $workspace;
-    }
-
-    public function createWorkspaces(TrackerEnum $trackerEnum, Collection $workspaces, \DateTime $importDate) {
+    public function create(TrackerEnum $trackerEnum, Collection $collection, \DateTime $importDate): void {
         $service = $trackerEnum->getService();
 
-        foreach($this->workspacesGenerator($workspaces) as $workspace)
+        foreach($this->generator($collection) as $workspace)
             $this->repository->updateOrCreate(
-                'tracker_workspace_id',
+                'tracker_id',
                 $workspace[$trackerEnum->getTrackerIdKey(Workspace::class)],
                 $service->mapWorkspace($workspace, $importDate),
             );

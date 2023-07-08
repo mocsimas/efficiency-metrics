@@ -17,6 +17,8 @@ return new class extends Migration
         ImportTypeEnum::USERS,
         ImportTypeEnum::WORKSPACES,
         ImportTypeEnum::TIME_ENTRIES,
+        ImportTypeEnum::PROJECTS,
+        ImportTypeEnum::TASKS,
     ];
 
     public function up(): void

@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\BaseFeatureTest;
 
-final class WorkspaceFeatureTest extends BaseFeatureTest
+final class WorkspaceTest extends BaseFeatureTest
 {
     /** @test */
     public function can_get_all_workspaces() {

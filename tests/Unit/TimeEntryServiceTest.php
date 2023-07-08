@@ -5,8 +5,7 @@ namespace Tests\Unit;
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\User\User;
 use App\Domain\Models\Workspace\Workspace;
-use App\Domain\Services\TimeEntryService;
-use App\Domain\Services\UserService;
+use App\Domain\Services\Model\TimeEntryService;
 use App\Infrastructure\Base\BaseUnitTest;
 use App\Infrastructure\Enums\TrackerEnum;
 
@@ -22,7 +21,7 @@ final class TimeEntryServiceTest extends BaseUnitTest
     }
 
     /** @test */
-    public function can_create_time_entries(): void
+    public function can_create_clockify_time_entries(): void
     {
         $trackerEnum = TrackerEnum::CLOCKIFY;
 
@@ -40,8 +39,8 @@ final class TimeEntryServiceTest extends BaseUnitTest
                     'start' => new \DateTime(),
                     'end' => new \DateTime(),
                 ],
-                'userId' => $user->tracker_user_id,
-                'workspaceId' => $workspace->tracker_workspace_id,
+                'userId' => $user->tracker_id,
+                'workspaceId' => $workspace->tracker_id,
             ],
             [
                 'id' => rand(100000, 99999999),
@@ -50,12 +49,12 @@ final class TimeEntryServiceTest extends BaseUnitTest
                     'start' => new \DateTime(),
                     'end' => new \DateTime(),
                 ],
-                'userId' => $user->tracker_user_id,
-                'workspaceId' => $workspace->tracker_workspace_id,
+                'userId' => $user->tracker_id,
+                'workspaceId' => $workspace->tracker_id,
             ],
         ]);
 
-        $this->service->createTimeEntries($trackerEnum, $apiUsers, new \DateTime());
+        $this->service->create($trackerEnum, $apiUsers, new \DateTime());
 
         $this->assertCount(2, TimeEntry::all());
     }
