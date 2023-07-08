@@ -17,7 +17,7 @@ class User extends BaseModel implements ResourceInterface
         'uuid',
         'name',
         'tracker',
-        'tracker_user_id',
+        'tracker_id',
         'tracker_name',
         'import_date',
     ];

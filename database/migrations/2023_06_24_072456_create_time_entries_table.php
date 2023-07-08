@@ -15,7 +15,7 @@ return new class extends Migration
             $table->datetime('ended_at')->nullable();
             $table->unsignedMediumInteger('duration');
             $table->string('tracker');
-            $table->string('tracker_time_entry_id');
+            $table->string('tracker_id');
             $table->string('tracker_title');
             $table->uuid('user_uuid');
             $table->uuid('workspace_uuid');

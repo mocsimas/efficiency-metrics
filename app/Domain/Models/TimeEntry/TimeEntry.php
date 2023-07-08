@@ -22,7 +22,7 @@ class TimeEntry extends BaseModel implements ResourceInterface
         'ended_at',
         'duration',
         'tracker',
-        'tracker_time_entry_id',
+        'tracker_id',
         'tracker_title',
         'user_uuid',
         'workspace_uuid',

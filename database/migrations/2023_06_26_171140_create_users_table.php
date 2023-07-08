@@ -12,7 +12,7 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->string('name');
             $table->string('tracker');
-            $table->string('tracker_user_id');
+            $table->string('tracker_id');
             $table->string('tracker_name');
             $table->datetime('import_date');
             $table->timestamps();

@@ -6,11 +6,13 @@ use App\Domain\Events\Import\ImportEnded;
 use App\Domain\Events\Import\ImportFailed;
 use App\Domain\Events\Import\ImportStarted;
 use App\Domain\Models\Import\Import;
+use App\Domain\Models\Project\Project;
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\Tracker\Tracker;
 use App\Domain\Models\User\User;
 use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Observers\ImportObserver;
+use App\Infrastructure\Observers\ProjectObserver;
 use App\Infrastructure\Observers\TimeEntryObserver;
 use App\Infrastructure\Observers\TrackerObserver;
 use App\Infrastructure\Observers\UserObserver;
@@ -46,6 +48,7 @@ class EventServiceProvider extends ServiceProvider
         Workspace::observe(WorkspaceObserver::class);
         TimeEntry::observe(TimeEntryObserver::class);
         Import::observe(ImportObserver::class);
+        Project::observe(ProjectObserver::class);
     }
 
     /**

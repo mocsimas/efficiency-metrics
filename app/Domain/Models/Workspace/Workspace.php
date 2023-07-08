@@ -17,7 +17,7 @@ class Workspace extends BaseModel implements ResourceInterface
         'uuid',
         'title',
         'tracker',
-        'tracker_workspace_id',
+        'tracker_id',
         'tracker_title',
         'import_date',
     ];

@@ -23,7 +23,7 @@ class TimeEntryFactory extends Factory
             'ended_at' => $this->faker->dateTime(),
             'duration' => $this->faker->numberBetween(10000, 99999),
             'tracker' => TrackerEnum::CLOCKIFY->value,
-            'tracker_time_entry_id' => $this->faker->numberBetween(1000000, 99999999),
+            'tracker_id' => $this->faker->numberBetween(1000000, 99999999),
             'tracker_title' => $this->faker->name(),
             'user_uuid' => User::all()->first()?->uuid ?: User::factory()->create()->uuid,
             'workspace_uuid' => Workspace::all()->first()?->uuid ?: Workspace::factory()->create()->uuid,

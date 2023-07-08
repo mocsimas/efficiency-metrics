@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Domain\Services;
+namespace App\Domain\Services\Model;
 
 use App\Domain\Models\User\User;
 use App\Domain\Models\User\UserRepository;
+use App\Domain\Services\Abstract\ModelService;
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Support\Collection;
 
-class UserService
+class UserService extends ModelService
 {
     private readonly UserRepository $repository;
 
@@ -15,17 +16,12 @@ class UserService
         $this->repository = UserRepository::getInstance();
     }
 
-    private function usersGenerator(Collection $users): \Generator {
-        foreach($users as $user)
-            yield (array) $user;
-    }
-
-    public function createUsers(TrackerEnum $trackerEnum, Collection $users, \DateTime $importDate) {
+    public function create(TrackerEnum $trackerEnum, Collection $collection, \DateTime $importDate): void {
         $service = $trackerEnum->getService();
 
-        foreach($this->usersGenerator($users) as $user)
+        foreach($this->generator($collection) as $user)
             $this->repository->updateOrCreate(
-                'tracker_user_id',
+                'tracker_id',
                 $user[$trackerEnum->getTrackerIdKey(User::class)],
                 $service->mapUser($user, $importDate),
             );

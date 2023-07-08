@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Domain\Models\User\User;
-use App\Domain\Services\UserService;
+use App\Domain\Services\Model\UserService;
 use App\Infrastructure\Base\BaseUnitTest;
 use App\Infrastructure\Enums\TrackerEnum;
 
@@ -19,7 +19,7 @@ final class UserServiceTest extends BaseUnitTest
     }
 
     /** @test */
-    public function can_create_tracker_users(): void
+    public function can_create_clockify_users(): void
     {
         $trackerEnum = TrackerEnum::CLOCKIFY;
 
@@ -36,7 +36,7 @@ final class UserServiceTest extends BaseUnitTest
             ],
         ]);
 
-        $this->service->createUsers($trackerEnum, $apiUsers, new \DateTime());
+        $this->service->create($trackerEnum, $apiUsers, new \DateTime());
 
         $this->assertCount(2, User::all());
     }

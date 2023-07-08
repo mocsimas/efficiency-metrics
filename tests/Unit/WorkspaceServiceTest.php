@@ -3,11 +3,9 @@
 namespace Tests\Unit;
 
 use App\Domain\Models\Workspace\Workspace;
-use App\Domain\Services\WorkspaceService;
+use App\Domain\Services\Model\WorkspaceService;
 use App\Infrastructure\Base\BaseUnitTest;
 use App\Infrastructure\Enums\TrackerEnum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\CreatesApplication;
 
 final class WorkspaceServiceTest extends BaseUnitTest
 {
@@ -21,7 +19,7 @@ final class WorkspaceServiceTest extends BaseUnitTest
     }
 
     /** @test */
-    public function can_create_tracker_workspaces(): void
+    public function can_create_clockify_workspaces(): void
     {
         $trackerEnum = TrackerEnum::CLOCKIFY;
 
@@ -38,7 +36,7 @@ final class WorkspaceServiceTest extends BaseUnitTest
             ],
         ]);
 
-        $this->service->createWorkspaces($trackerEnum, $apiWorkspaces, new \DateTime());
+        $this->service->create($trackerEnum, $apiWorkspaces, new \DateTime());
 
         $this->assertCount(2, Workspace::all());
     }
