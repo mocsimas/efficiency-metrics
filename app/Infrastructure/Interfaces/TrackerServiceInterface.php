@@ -17,6 +17,8 @@ interface TrackerServiceInterface
 
     public function mapProject(array $project, \DateTime $importDate): array;
 
+    public function mapTask(array $task, \DateTime $importDate): array;
+
     public function workspaces(): Collection;
 
     public function importWorkspaces(): bool;
@@ -32,4 +34,8 @@ interface TrackerServiceInterface
     public function projects(): Collection;
 
     public function importProjects(): bool;
+
+    public function tasks(): Collection;
+
+    public function importTasks(): bool;
 }

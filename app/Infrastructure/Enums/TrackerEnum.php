@@ -5,7 +5,6 @@ namespace App\Infrastructure\Enums;
 use App\Domain\Services\Tracker\ClockifyService;
 use App\Infrastructure\Interfaces\TrackerServiceInterface;
 use Illuminate\Support\Facades\Http;
-use Tracker;
 
 enum TrackerEnum: string
 {
@@ -22,7 +21,7 @@ enum TrackerEnum: string
 
         return match($this) {
             self::CLOCKIFY => function() use ($enum) {
-                return Http::withHeaders(['X-Api-Key' => Tracker::getTrackerApiKey($enum)])
+                return Http::withHeaders(['X-Api-Key' => \Tracker::getTrackerApiKey($enum)])
                     ->baseUrl($enum->getHttpBaseUrl());
             },
         };

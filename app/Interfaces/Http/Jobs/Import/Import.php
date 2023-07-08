@@ -29,7 +29,7 @@ class Import implements ShouldQueue
         foreach(TrackerEnum::cases() as $enum) {
             $service = $enum->getService();
 
-            foreach(['importWorkspaces', 'importUsers', 'importTimeEntries', 'importProjects'] as $method)
+            foreach(['importWorkspaces', 'importUsers', 'importTimeEntries', 'importProjects', 'importTasks'] as $method)
                 if(!$service->{$method}())
                     throw new \Exception('Failed to import');
         }

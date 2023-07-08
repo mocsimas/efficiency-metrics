@@ -3,12 +3,15 @@
 namespace App\Domain\Services\Tracker;
 
 use App\Domain\Models\Project\Project;
+use App\Domain\Models\Project\ProjectRepository;
+use App\Domain\Models\Task\Task;
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\User\User;
 use App\Domain\Models\User\UserRepository;
 use App\Domain\Models\Workspace\Workspace;
 use App\Domain\Models\Workspace\WorkspaceRepository;
 use App\Domain\Services\Model\ProjectService;
+use App\Domain\Services\Model\TaskService;
 use App\Domain\Services\Model\TimeEntryService;
 use App\Domain\Services\Model\UserService;
 use App\Domain\Services\Model\WorkspaceService;
@@ -30,12 +33,16 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
 
     private readonly UserRepository $userRepository;
 
+    private readonly ProjectRepository $projectRepository;
+
     public function __construct() {
         $this->http = Http::{$this->getTrackerEnum()->getHttpMacroName()}();
 
         $this->workspaceRepository = WorkspaceRepository::getInstance();
 
         $this->userRepository = UserRepository::getInstance();
+
+        $this->projectRepository = ProjectRepository::getInstance();
     }
 
     public function getTrackerEnum(): TrackerEnum {
@@ -87,6 +94,17 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
             'tracker_title' => $project['name'],
             'import_date' => $importDate,
             'workspace_uuid' => $this->workspaceRepository->find('tracker_id', $project['workspaceId'])->uuid,
+        ];
+    }
+
+    public function mapTask(array $task, \DateTime $importDate): array {
+        return [
+            'title' => $task['name'],
+            'tracker' => $this->getTrackerEnum()->value,
+            'tracker_id' => $task[$this->getTrackerEnum()->getTrackerIdKey(Task::class)],
+            'tracker_title' => $task['name'],
+            'import_date' => $importDate,
+            'project_uuid' => $this->projectRepository->find('tracker_id', $task['projectId'])->uuid,
         ];
     }
 
@@ -195,10 +213,45 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
     }
 
     public function importProjects(): bool {
-        $timeEntries = $this->projects();
+        $projects = $this->projects();
 
         try {
-            (new ProjectService())->create($this->getTrackerEnum(), $timeEntries, new \DateTime());
+            (new ProjectService())->create($this->getTrackerEnum(), $projects, new \DateTime());
+        } catch(\Exception $exception) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function tasks(): Collection {
+        $workspaces = WorkspaceRepository::getInstance()->findByTracker($this->getTrackerEnum());
+
+        $tasks = collect([]);
+
+        foreach($workspaces as $workspace) {
+            $projects = $workspace->projects;
+
+            foreach($projects as $project) {
+                $response = $this->http->get("/v1/workspaces/{$workspaces->tracker_id}/projects/{$project->tracker_id}/tasks");
+
+                if($response->successful()) {
+                    $tasks = $tasks->merge(collect($response->json()));
+                    continue;
+                }
+
+                Log::error("Failed to fetch Clockify tasks");
+            }
+        }
+
+        return $tasks;
+    }
+
+    public function importTasks(): bool {
+        $tasks = $this->tasks();
+
+        try {
+            (new TaskService())->create($this->getTrackerEnum(), $tasks, new \DateTime());
         } catch(\Exception $exception) {
             return false;
         }
