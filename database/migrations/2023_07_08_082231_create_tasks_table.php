@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('tracker_title');
             $table->datetime('import_date');
             $table->uuid('project_uuid');
+            $table->unsignedBigInteger('duration')->nullable();
             $table->timestamps();
         });
     }

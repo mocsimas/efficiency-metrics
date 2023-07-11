@@ -2,6 +2,8 @@
 
 namespace App\Domain\Models\Project;
 
+use App\Domain\Models\Task\Task;
+use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Interfaces\ResourceInterface;
 use App\Infrastructure\Resource\Project\ProjectResource;
@@ -28,5 +30,13 @@ class Project extends BaseModel implements ResourceInterface
 
     public static function collection($data): JsonResource {
         return ProjectResource::collection($data);
+    }
+
+    public function workspace() {
+        return $this->belongsTo(Workspace::class, 'workspace_uuid', 'uuid');
+    }
+
+    public function tasks() {
+        return $this->hasMany(Task::class, 'project_uuid', 'uuid');
     }
 }

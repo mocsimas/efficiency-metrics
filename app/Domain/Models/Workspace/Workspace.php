@@ -2,6 +2,7 @@
 
 namespace App\Domain\Models\Workspace;
 
+use App\Domain\Models\Project\Project;
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\ResourceInterface;
@@ -33,5 +34,9 @@ class Workspace extends BaseModel implements ResourceInterface
 
     public static function collection($data): JsonResource {
         return WorkspaceResource::collection($data);
+    }
+
+    public function projects() {
+        return $this->hasMany(Project::class, 'uuid', 'workspace_uuid');
     }
 }

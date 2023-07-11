@@ -5,6 +5,7 @@ namespace App\Domain\Services\Tracker;
 use App\Domain\Models\Project\Project;
 use App\Domain\Models\Project\ProjectRepository;
 use App\Domain\Models\Task\Task;
+use App\Domain\Models\Task\TaskRepository;
 use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Domain\Models\User\User;
 use App\Domain\Models\User\UserRepository;
@@ -35,6 +36,8 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
 
     private readonly ProjectRepository $projectRepository;
 
+    private readonly TaskRepository $taskRepository;
+
     public function __construct() {
         $this->http = Http::{$this->getTrackerEnum()->getHttpMacroName()}();
 
@@ -43,6 +46,8 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
         $this->userRepository = UserRepository::getInstance();
 
         $this->projectRepository = ProjectRepository::getInstance();
+
+        $this->taskRepository = TaskRepository::getInstance();
     }
 
     public function getTrackerEnum(): TrackerEnum {
@@ -70,6 +75,18 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
     }
 
     public function mapTimeEntry(array $timeEntry, \DateTime $importDate): array {
+        $userId = $timeEntry['userId'] ?? null;
+        $user = $userId ? $this->userRepository->find('tracker_id', $userId) : null;
+
+        $workspaceId = $timeEntry['workspaceId'] ?? null;
+        $workspace = $workspaceId ? $this->workspaceRepository->find('tracker_id', $workspaceId) : null;
+
+        $projectId = $timeEntry['projectId'] ?? null;
+        $project = $projectId ? $this->projectRepository->find('tracker_id', $projectId) : null;
+
+        $taskId = $timeEntry['taskId'] ?? null;
+        $task = $taskId ? $this->taskRepository->find('tracker_id', $taskId) : null;
+
         return [
             'title' => $timeEntry['description'],
             'started_at' => Carbon::parse($timeEntry['timeInterval']['start']),
@@ -77,12 +94,11 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
             'tracker' => $this->getTrackerEnum()->value,
             'tracker_id' => $timeEntry[$this->getTrackerEnum()->getTrackerIdKey(TimeEntry::class)],
             'tracker_title' => $timeEntry['description'],
-            'user_uuid' => $this->userRepository->find('tracker_id', $timeEntry['userId'])->uuid,
-            'workspace_uuid' => $this->workspaceRepository->find('tracker_id', $timeEntry['workspaceId'])->uuid,
+            'user_uuid' => $user->uuid,
+            'workspace_uuid' => $workspace->uuid,
+            'project_uuid' => $project?->uuid,
+            'task_uuid' => $task?->uuid,
             'import_date' => $importDate,
-//            'workspace_uuid' => null,
-//            'project_uuid' => null,
-//            'task_uuid' => null,
         ];
     }
 
@@ -225,23 +241,21 @@ class ClockifyService extends TrackerService implements TrackerServiceInterface
     }
 
     public function tasks(): Collection {
-        $workspaces = WorkspaceRepository::getInstance()->findByTracker($this->getTrackerEnum());
+        $projects = ProjectRepository::getInstance()->findByTracker($this->getTrackerEnum());
 
         $tasks = collect([]);
 
-        foreach($workspaces as $workspace) {
-            $projects = $workspace->projects;
+        foreach($projects as $project) {
+            $workspace = $project->workspace;
 
-            foreach($projects as $project) {
-                $response = $this->http->get("/v1/workspaces/{$workspaces->tracker_id}/projects/{$project->tracker_id}/tasks");
+            $response = $this->http->get("/v1/workspaces/{$workspace->tracker_id}/projects/{$project->tracker_id}/tasks");
 
-                if($response->successful()) {
-                    $tasks = $tasks->merge(collect($response->json()));
-                    continue;
-                }
-
-                Log::error("Failed to fetch Clockify tasks");
+            if($response->successful()) {
+                $tasks = $tasks->merge(collect($response->json()));
+                continue;
             }
+
+            Log::error("Failed to fetch Clockify tasks");
         }
 
         return $tasks;

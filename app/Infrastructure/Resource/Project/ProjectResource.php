@@ -9,7 +9,10 @@ class ProjectResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        // TODO: fill resource
-        return parent::toArray($request);
+        return [
+            'uuid' => $this->uuid,
+            'title' => $this->title,
+            'workspace' => $this->workspace->transform(),
+        ];
     }
 }

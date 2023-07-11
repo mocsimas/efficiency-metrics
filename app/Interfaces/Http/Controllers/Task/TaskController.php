@@ -2,10 +2,13 @@
 
 namespace App\Interfaces\Http\Controllers\Task;
 
-use App\Infrastructure\Base\BaseController;
-use Illuminate\Http\Request;
+use App\Domain\Models\Task\TaskRepository;
+use App\Infrastructure\Base\ResourceController;
+use Illuminate\Http\JsonResponse;
 
-class TaskController extends BaseController
+class TaskController extends ResourceController
 {
-    //
+    public function __construct(
+        protected readonly TaskRepository $repository,
+    ) {}
 }

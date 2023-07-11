@@ -20,11 +20,59 @@ export function useBaseStore() {
 		}
 	}
 
+	const create = async (url: string, payload: object) => {
+		let isSuccess = true
+
+		try {
+			await api.post(url, payload)
+				.then(({data, status}) => {
+
+					if(status !== 'success')
+						new Error('Failed to create.')
+
+					collection.value.unshift(data)
+
+				}).catch(error => {
+					throw error.message
+				})
+		} catch (error) {
+			isSuccess = false
+		}
+
+		return isSuccess
+	}
+
+	const update = async (url: string, payload: object) => {
+		let isSuccess = true
+
+		try {
+			await api.post(url, payload)
+				.then(({data, status}) => {
+					if(status !== 'success')
+						new Error('Failed to update.')
+
+					const index = collection.value.findIndex(model => model.uuid === data.uuid)
+
+					if(0 <= index)
+						collection.value[index] = data
+
+				}).catch(error => {
+					throw error.message
+				})
+		} catch (error) {
+			isSuccess = false
+		}
+
+		return isSuccess
+	}
+
 	return {
 		isFetched,
 		fetchFailed,
 		collection,
 
 		fetch,
+		create,
+		update,
 	}
 }
