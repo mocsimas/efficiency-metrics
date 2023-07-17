@@ -14,7 +14,7 @@ abstract class ResourceController extends BaseController
 
             return $this->response($workspaces);
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -26,7 +26,7 @@ abstract class ResourceController extends BaseController
 
             return $this->response($workspaces);
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -38,7 +38,7 @@ abstract class ResourceController extends BaseController
 
             return $this->response($workspaces);
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

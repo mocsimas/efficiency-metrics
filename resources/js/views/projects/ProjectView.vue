@@ -7,6 +7,7 @@ import {useRoute} from "vue-router";
 import PrimaryButton from "@/components/button/PrimaryButton.vue";
 import EstimatesForm from "@/components/estimate/EstimatesForm.vue"
 import {useEstimateStore} from "@stores/EstimateStore";
+import EfficiencyDurationLabel from "@/components/metrics/task/EfficiencyDurationLabel.vue";
 
 const route = useRoute()
 
@@ -36,8 +37,12 @@ const showForm = (task: object) => {
 	estimatesFormTask.value = task
 }
 
-const formatTaskEstimate = (task): string => {
-	const estimate = estimates.value.find((estimate) => estimate.task_uuid === task.uuid)
+const getTaskEstimate = (task: object): object => {
+	return estimates.value.find((estimate) => estimate.task_uuid === task.uuid)
+}
+
+const formatTaskEstimate = (task: object): string => {
+	const estimate = getTaskEstimate(task)
 
 	return formatEstimate(estimate)
 }
@@ -98,6 +103,7 @@ table-wrapper(
 	template(#table-body)
 			tr(
 				v-for="(task, index) in tasksCollection"
+				:key="index"
 				class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
 			)
 				td.px-6.py-4(scope="col") {{ task.title }}
@@ -109,6 +115,7 @@ table-wrapper(
 				td.px-6.py-4(scope="col") {{ formatTaskEstimate(task) }}
 
 				td.px-6.py-4(scope="col")
+					efficiency-duration-label(:task="task")
 
 				td.px-6.py-4(scope="col")
 					primary-button(@click="showForm(task)")

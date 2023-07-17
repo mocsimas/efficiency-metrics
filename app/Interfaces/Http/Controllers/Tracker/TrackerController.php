@@ -19,7 +19,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -29,7 +29,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -39,7 +39,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($users);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -49,7 +49,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($users);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -59,7 +59,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($timeEntries);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -69,7 +69,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($timeEntries);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

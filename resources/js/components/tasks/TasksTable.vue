@@ -36,6 +36,7 @@ table-wrapper(
 	template(#table-body)
 			tr(
 				v-for="(task, index) in tasks"
+				:key="index"
 				class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
 			)
 				td.px-6.py-4(scope="col") {{ task.title }}

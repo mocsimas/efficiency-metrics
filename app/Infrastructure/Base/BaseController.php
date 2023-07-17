@@ -7,10 +7,10 @@ use App\Interfaces\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\ValidationException;
 
 abstract class BaseController extends Controller
 {
-//    protected function response(array|JsonResource $data): JsonResponse {
     protected function response($data): JsonResponse {
         $transformed = null;
 
@@ -25,10 +25,13 @@ abstract class BaseController extends Controller
         ], 200);
     }
 
-    protected function error(string $error, array $errors = [], int|string $code = 500): JsonResponse {
+    protected function error(string $error, array $errors = [], int|string $code = 500, \Exception $exception = null): JsonResponse {
+        if($exception instanceof ValidationException)
+            $code = 422;
+
         if(!array_key_exists($code, Response::$statusTexts)) {
             if(config('app.debug') === true && config('app.env') !== 'testing')
-                dd($error, $errors);
+                dd($error, $errors, $code);
 
             $error = 'Server error.';
             $errors = [];
@@ -48,7 +51,7 @@ abstract class BaseController extends Controller
 
             return $this->response($workspaces);
         }catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

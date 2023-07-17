@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static string workspaceDuration(int $year, int $month, ?Workspace $workspace)
+ * @method static string workspaceEfficiency(int $year, int $month, ?Workspace $workspace)
  */
 class MetricsFacade extends Facade
 {

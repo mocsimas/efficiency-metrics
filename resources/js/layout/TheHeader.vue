@@ -1,9 +1,8 @@
 <script setup lang="ts">
 const menu = [
 	{ title: 'Dashboard', route: 'dashboard' },
-	{ title: 'Time Entries', route: 'time-entries' },
 	{ title: 'Projects', route: 'projects' },
-	{ title: 'Tasks', route: 'tasks' },
+	{ title: 'Time Entries', route: 'time-entries' },
 ]
 
 </script>

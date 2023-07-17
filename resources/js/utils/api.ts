@@ -1,15 +1,15 @@
-import axios, {CreateAxiosDefaults} from "axios";
-
-const api = axios.create<CreateAxiosDefaults | undefined>({
-	baseURL: `${import.meta.env.VITE_APP_DOMAIN}/api/`
-})
+import axios from './api/axios'
+import { useErrorStore } from '@stores/ErrorStore'
+import { ErrorsArrayInterface } from "@/types/error/ErrorsArrayInterface"
 
 export default {
 	get(url: string) {
 		return new Promise((resolve, reject) => {
-			api.get(url).then(({data}) => {
+			axios.get(url).then(({data}) => {
 				resolve(data)
 			}).catch(({response}) => {
+				this.handleErrors(response.status, response.data.errors)
+
 				reject(response.data)
 			})
 		})
@@ -17,13 +17,23 @@ export default {
 
 	post(url: string, data: object, config: object = {}) {
 		return new Promise((resolve, reject) => {
-			api.post(url, data, config)
+			axios.post(url, data, config)
 				.then(({data}) => {
 					resolve(data)
 				})
 				.catch(({response}) => {
+					this.handleErrors(response.status, response.data.errors)
+
 					reject(response.data)
 				})
 		})
+	},
+
+	handleErrors(status, errors: ErrorsArrayInterface = {}) {
+		switch(status) {
+			case 422:
+				useErrorStore().setErrors(errors)
+				break
+		}
 	},
 }

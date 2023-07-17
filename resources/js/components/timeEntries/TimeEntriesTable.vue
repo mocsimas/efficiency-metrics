@@ -36,7 +36,10 @@ table-wrapper(
 			th.px-6.py-3(scope="col") Duration
 
 	template(#table-body)
-		template(v-for="(timeEntry, index) in timeEntries")
+		template(
+			v-for="(timeEntry, index) in timeEntries"
+			:key="index"
+		)
 			tr(
 				v-if="!index || timeEntry.date !== timeEntries[index - 1].date"
 				class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"

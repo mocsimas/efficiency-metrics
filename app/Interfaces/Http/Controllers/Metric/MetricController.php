@@ -30,7 +30,7 @@ class MetricController extends BaseController
         try {
             return $this->response($this->service->workspaceDuration($payload['year'], $payload['month'], $workspace));
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

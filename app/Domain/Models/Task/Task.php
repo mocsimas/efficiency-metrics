@@ -8,7 +8,12 @@ use App\Domain\Models\TimeEntry\TimeEntry;
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Interfaces\ResourceInterface;
 use App\Infrastructure\Resource\Task\TaskResource;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Task extends BaseModel implements ResourceInterface
@@ -44,5 +49,12 @@ class Task extends BaseModel implements ResourceInterface
 
     public function estimate() {
         return $this->hasOne(Estimate::class, 'task_uuid', 'uuid');
+    }
+
+    public function scopeOfDate(Builder $query, int $year, int $month): Builder {
+        return $query->whereRelation('timeEntries', function($query) use ($year, $month) {
+            $query->whereYear('started_at', $year)
+                ->whereMonth('started_at', $month);
+        });
     }
 }

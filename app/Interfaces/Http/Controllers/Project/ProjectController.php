@@ -19,7 +19,7 @@ class ProjectController extends ResourceController
 
             return $this->response($tasks);
         }catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

@@ -20,7 +20,7 @@ class ImportController extends BaseController
 
             return $this->response(true);
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

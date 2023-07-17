@@ -2,7 +2,9 @@
 
 namespace App\Domain\Models\Workspace;
 
+use App\Domain\Models\Estimate\Estimate;
 use App\Domain\Models\Project\Project;
+use App\Domain\Models\Task\Task;
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
 use App\Infrastructure\Interfaces\ResourceInterface;
@@ -38,5 +40,9 @@ class Workspace extends BaseModel implements ResourceInterface
 
     public function projects() {
         return $this->hasMany(Project::class, 'uuid', 'workspace_uuid');
+    }
+
+    public function tasks() {
+        return $this->hasManyThrough(Task::class, Project::class);
     }
 }
