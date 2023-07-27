@@ -2,12 +2,16 @@
 
 namespace App\Infrastructure\Base;
 
-use App\Interfaces\Http\Controllers\Controller;
+use App\Infrastructure\Contracts\Request\CreateRequestContract;
+use App\Infrastructure\Contracts\Request\UpdateRequestContract;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 abstract class ResourceController extends BaseController
 {
+    abstract public function getCreateRequest(): string;
+
+    abstract public function getUpdateRequest(): string;
+
     public function index(): JsonResponse {
         try {
             $workspaces = $this->repository->index();
@@ -18,25 +22,21 @@ abstract class ResourceController extends BaseController
         }
     }
 
-    public function create(Request $request): JsonResponse {
+    public function create(CreateRequestContract $request): JsonResponse {
         try {
-            $payload = $this->validator($request, 'create');
+            $models = $this->repository->create($request->validated());
 
-            $workspaces = $this->repository->create($payload);
-
-            return $this->response($workspaces);
+            return $this->response($models);
         } catch(\Exception $exception) {
             return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
-    public function update(Request $request): JsonResponse {
+    public function update(UpdateRequestContract $request): JsonResponse {
         try {
-            $payload = $this->validator($request, 'update');
+            $models = $this->repository->update($request->validated());
 
-            $workspaces = $this->repository->update($payload);
-
-            return $this->response($workspaces);
+            return $this->response($models);
         } catch(\Exception $exception) {
             return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }

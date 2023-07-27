@@ -4,12 +4,12 @@ namespace App\Domain\Models\User;
 
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
-use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Contracts\ResourceContract;
 use App\Infrastructure\Resource\User\UserResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class User extends BaseModel implements ResourceInterface
+class User extends BaseModel implements ResourceContract
 {
     use HasFactory;
 

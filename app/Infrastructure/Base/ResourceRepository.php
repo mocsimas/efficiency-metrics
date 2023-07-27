@@ -1,11 +1,11 @@
 <?php
 namespace App\Infrastructure\Base;
 
-use App\Infrastructure\Interfaces\ResourceRepositoryInterface;
+use App\Infrastructure\Contracts\ResourceRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-abstract class ResourceRepository extends BaseRepository implements ResourceRepositoryInterface
+abstract class ResourceRepository extends BaseRepository implements ResourceRepositoryContract
 {
     protected const ORDER = 'created_at';
 

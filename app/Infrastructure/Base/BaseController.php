@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Base;
 
-use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Contracts\ResourceContract;
 use App\Interfaces\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -14,9 +14,9 @@ abstract class BaseController extends Controller
     protected function response($data): JsonResponse {
         $transformed = null;
 
-        if($data instanceof ResourceInterface)
+        if($data instanceof ResourceContract)
             $transformed = $data->transform();
-        else if($data instanceof Collection && $data->isNotEmpty() && $data->first() instanceof ResourceInterface)
+        else if($data instanceof Collection && $data->isNotEmpty() && $data->first() instanceof ResourceContract)
             $transformed = ($data->first()::class)::collection($data);
 
         return response()->json([

@@ -3,14 +3,13 @@
 namespace App\Interfaces\Http\Controllers\Tracker;
 
 use App\Infrastructure\Base\BaseController;
-use App\Infrastructure\Base\ResourceController;
-use App\Infrastructure\Interfaces\TrackerServiceInterface;
+use App\Infrastructure\Contracts\TrackerServiceContract;
 use Illuminate\Http\JsonResponse;
 
-final class TrackerController extends ResourceController
+final class TrackerController extends BaseController
 {
     public function __construct(
-        protected readonly TrackerServiceInterface $service,
+        protected readonly TrackerServiceContract $service,
     ) {}
 
     public function workspaces(): JsonResponse {

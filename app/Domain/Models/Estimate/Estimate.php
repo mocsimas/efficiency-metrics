@@ -4,12 +4,12 @@ namespace App\Domain\Models\Estimate;
 
 use App\Domain\Models\Task\Task;
 use App\Infrastructure\Base\BaseModel;
-use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Contracts\ResourceContract;
 use App\Infrastructure\Resource\Estimate\EstimateResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Estimate extends BaseModel implements ResourceInterface
+class Estimate extends BaseModel implements ResourceContract
 {
     use HasFactory;
 

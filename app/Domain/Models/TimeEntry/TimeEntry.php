@@ -7,13 +7,13 @@ use App\Domain\Models\Task\Task;
 use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\BaseModel;
 use App\Infrastructure\Enums\TrackerEnum;
-use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Contracts\ResourceContract;
 use App\Infrastructure\Resource\TimeEntry\TimeEntryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 
-class TimeEntry extends BaseModel implements ResourceInterface
+class TimeEntry extends BaseModel implements ResourceContract
 {
     use HasFactory;
 

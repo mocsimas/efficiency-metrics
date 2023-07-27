@@ -4,7 +4,7 @@ namespace App\Infrastructure\Enums;
 
 use App\Domain\Services\Tracker\ClockifyService;
 use App\Infrastructure\Facades\TrackerFacade;
-use App\Infrastructure\Interfaces\TrackerServiceInterface;
+use App\Infrastructure\Contracts\TrackerServiceContract;
 use Illuminate\Support\Facades\Http;
 
 enum TrackerEnum: string
@@ -40,7 +40,7 @@ enum TrackerEnum: string
         };
     }
 
-    public function getService(): TrackerServiceInterface {
+    public function getService(): TrackerServiceContract {
         return match($this) {
             self::CLOCKIFY => new ClockifyService(),
         };

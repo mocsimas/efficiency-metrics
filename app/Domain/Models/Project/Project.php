@@ -5,12 +5,12 @@ namespace App\Domain\Models\Project;
 use App\Domain\Models\Task\Task;
 use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\BaseModel;
-use App\Infrastructure\Interfaces\ResourceInterface;
+use App\Infrastructure\Contracts\ResourceContract;
 use App\Infrastructure\Resource\Project\ProjectResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Project extends BaseModel implements ResourceInterface
+class Project extends BaseModel implements ResourceContract
 {
     use HasFactory;
 

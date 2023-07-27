@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Infrastructure\Interfaces;
+namespace App\Infrastructure\Contracts;
 
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Support\Collection;
 
-interface TrackerServiceInterface
+interface TrackerServiceContract
 {
     public function getTrackerEnum(): TrackerEnum;
 

@@ -18,7 +18,7 @@ use App\Domain\Services\Model\UserService;
 use App\Domain\Services\Model\WorkspaceService;
 use App\Domain\Services\TrackerService;
 use App\Infrastructure\Enums\TrackerEnum;
-use App\Infrastructure\Interfaces\TrackerServiceInterface;
+use App\Infrastructure\Contracts\TrackerServiceContract;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
 use function collect;
 
-class ClockifyService extends TrackerService implements TrackerServiceInterface
+class ClockifyService extends TrackerService implements TrackerServiceContract
 {
     private $http;
 
