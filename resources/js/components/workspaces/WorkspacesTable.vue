@@ -22,7 +22,8 @@ table-wrapper
 
 	template(#table-body)
 		tr(
-			v-for="workspace in workspaces"
+			v-for="(workspace, index) in workspaces"
+			:key="index"
 			class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
 		)
 			td.px-6.py-4(scope="col") {{ workspace.title }}

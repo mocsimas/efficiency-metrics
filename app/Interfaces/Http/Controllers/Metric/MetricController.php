@@ -6,6 +6,7 @@ use App\Domain\Models\Workspace\Workspace;
 use App\Domain\Models\Workspace\WorkspaceRepository;
 use App\Domain\Services\MetricsService;
 use App\Infrastructure\Base\BaseController;
+use App\Infrastructure\Requests\Metric\MetricWorkspaceDurationRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -15,22 +16,14 @@ class MetricController extends BaseController
         protected readonly MetricsService $service,
     ) {}
 
-    public function validator(Request $request, string $type) {
-        return match($type) {
-            'hours' => $request->validate([
-                'year' => 'required|date_format:Y',
-                'month' => 'required|date_format:n',
-            ]),
-        };
-    }
-
-    public function workspaceDuration(Workspace $workspace, Request $request): JsonResponse {
-        $payload = $this->validator($request, 'hours');
-
+    public function workspaceDuration(Workspace $workspace, MetricWorkspaceDurationRequest $request): JsonResponse {
         try {
-            return $this->response($this->service->workspaceDuration($payload['year'], $payload['month'], $workspace));
+            $year = $request->validated('year');
+            $month = $request->validated('month');
+
+            return $this->response($this->service->workspaceDuration($year, $month, $workspace));
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

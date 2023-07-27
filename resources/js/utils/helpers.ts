@@ -18,11 +18,15 @@ export const durationToSeconds = (duration: string): number => {
 }
 
 export const secondsToDuration = (seconds: number): string => {
-  const hours = Math.floor(seconds / 3600)
-  const minutes = Math.floor((seconds % 3600) / 60)
-  const remainingSeconds = seconds % 60
+	const absoluteSeconds = Math.abs(seconds)
 
-  return `${padWithZero(hours)}:${padWithZero(minutes)}:${padWithZero(remainingSeconds)}`
+  const hours = Math.floor(absoluteSeconds / 3600)
+  const minutes = Math.floor((absoluteSeconds % 3600) / 60)
+  const remainingSeconds = absoluteSeconds % 60
+
+	let duration = `${padWithZero(hours)}:${padWithZero(minutes)}:${padWithZero(remainingSeconds)}`
+
+  return seconds < 0 ? `-${duration}` : duration
 }
 
 export const getPreviousMonth = (subtractMonth: number): moment.Moment => {

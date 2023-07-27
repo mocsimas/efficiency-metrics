@@ -4,10 +4,9 @@ namespace App\Domain\Models\TimeEntry;
 
 use App\Domain\Models\Workspace\Workspace;
 use App\Infrastructure\Base\ResourceRepository;
+use App\Infrastructure\Facades\TimeFacade;
 use App\Infrastructure\Traits\Repository\HasImportDateTrait;
 use App\Infrastructure\Traits\Repository\HasTrackerTrait;
-use Illuminate\Support\Facades\DB;
-use Time;
 
 class TimeEntryRepository extends ResourceRepository
 {
@@ -33,6 +32,6 @@ class TimeEntryRepository extends ResourceRepository
             ->whereYear('started_at', '=', $year)
             ->whereMonth('started_at', '=', $month);
 
-        return Time::secondsToDuration($query->sum('duration'));
+        return TimeFacade::secondsToDuration($query->sum('duration'));
     }
 }

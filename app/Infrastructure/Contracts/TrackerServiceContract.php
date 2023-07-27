@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Infrastructure\Interfaces;
+namespace App\Infrastructure\Contracts;
 
 use App\Infrastructure\Enums\TrackerEnum;
 use Illuminate\Support\Collection;
 
-interface TrackerServiceInterface
+interface TrackerServiceContract
 {
     public function getTrackerEnum(): TrackerEnum;
 
@@ -16,6 +16,8 @@ interface TrackerServiceInterface
     public function mapTimeEntry(array $timeEntry, \DateTime $importDate): array;
 
     public function mapProject(array $project, \DateTime $importDate): array;
+
+    public function mapTask(array $task, \DateTime $importDate): array;
 
     public function workspaces(): Collection;
 
@@ -32,4 +34,8 @@ interface TrackerServiceInterface
     public function projects(): Collection;
 
     public function importProjects(): bool;
+
+    public function tasks(): Collection;
+
+    public function importTasks(): bool;
 }

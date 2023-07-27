@@ -19,9 +19,8 @@ return new class extends Migration
             $table->string('tracker_title');
             $table->uuid('user_uuid');
             $table->uuid('workspace_uuid');
-//            $table->uuid('workspace_uuid');
-//            $table->uuid('project_uuid');
-//            $table->uuid('task_uuid')->nullable();
+            $table->uuid('project_uuid')->nullable();
+            $table->uuid('task_uuid')->nullable();
             $table->datetime('import_date');
             $table->timestamps();
         });

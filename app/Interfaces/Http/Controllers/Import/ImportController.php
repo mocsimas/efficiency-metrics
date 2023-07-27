@@ -14,13 +14,13 @@ class ImportController extends BaseController
         protected readonly ImportService $service,
     ) {}
 
-    public function import(Request $request): JsonResponse {
+    public function import(): JsonResponse {
         try {
             Import::dispatch();
 
             return $this->response(true);
         } catch(\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

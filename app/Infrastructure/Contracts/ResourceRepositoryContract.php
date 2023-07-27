@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Infrastructure\Interfaces;
+namespace App\Infrastructure\Contracts;
 
 use App\Infrastructure\Base\BaseModel;
 use Illuminate\Database\Eloquent\Collection;
 
-interface ResourceRepositoryInterface
+interface ResourceRepositoryContract
 {
     public function index(): Collection;
 

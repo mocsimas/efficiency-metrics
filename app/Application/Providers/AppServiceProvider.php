@@ -5,8 +5,11 @@ namespace App\Application\Providers;
 use App\Domain\Services\MetricsService;
 use App\Domain\Services\TimeService;
 use App\Domain\Services\TrackerService;
+use App\Infrastructure\Base\BaseController;
+use App\Infrastructure\Contracts\Request\CreateRequestContract;
+use App\Infrastructure\Contracts\Request\UpdateRequestContract;
 use App\Infrastructure\Enums\TrackerEnum;
-use App\Infrastructure\Interfaces\TrackerServiceInterface;
+use App\Infrastructure\Contracts\TrackerServiceContract;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -30,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Tracker controller dependency injection bind
-        $this->app->bind(TrackerServiceInterface::class, function($app) {
+        $this->app->bind(TrackerServiceContract::class, function($app) {
             $tracker = request()->route()?->parameter('tracker');
 
             $trackerEnum = TrackerEnum::tryFrom($tracker);
@@ -40,6 +43,33 @@ class AppServiceProvider extends ServiceProvider
 
             return $app->make($trackerEnum->getService()::class);
         });
+
+        $this->app->bind(CreateRequestContract::class, function($app) {
+            return $app->make($this->getCurrentController()->getCreateRequest());
+        });
+
+        $this->app->bind(UpdateRequestContract::class, function($app) {
+            return $app->make($this->getCurrentController()->getUpdateRequest());
+        });
+    }
+
+    /**
+     * Get the current controller instance.
+     *
+     * @return BaseController|null
+     */
+    private function getCurrentController()
+    {
+        $route = app('router')->getCurrentRoute();
+
+        if ($route) {
+            $controller = $route->getController();
+
+            if ($controller instanceof BaseController)
+                return $controller;
+        }
+
+        return null;
     }
 
     /**

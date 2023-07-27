@@ -3,14 +3,13 @@
 namespace App\Interfaces\Http\Controllers\Tracker;
 
 use App\Infrastructure\Base\BaseController;
-use App\Infrastructure\Base\ResourceController;
-use App\Infrastructure\Interfaces\TrackerServiceInterface;
+use App\Infrastructure\Contracts\TrackerServiceContract;
 use Illuminate\Http\JsonResponse;
 
-final class TrackerController extends ResourceController
+final class TrackerController extends BaseController
 {
     public function __construct(
-        protected readonly TrackerServiceInterface $service,
+        protected readonly TrackerServiceContract $service,
     ) {}
 
     public function workspaces(): JsonResponse {
@@ -19,7 +18,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -29,7 +28,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($workspaces);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -39,7 +38,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($users);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -49,7 +48,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($users);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -59,7 +58,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($timeEntries);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 
@@ -69,7 +68,7 @@ final class TrackerController extends ResourceController
 
             return $this->response($timeEntries);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), [], $exception->getCode());
+            return $this->error($exception->getMessage(), $exception?->errors() ?: [], $exception->getCode(), $exception);
         }
     }
 }

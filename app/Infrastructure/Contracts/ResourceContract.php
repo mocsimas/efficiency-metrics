@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Infrastructure\Interfaces;
+namespace App\Infrastructure\Contracts;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-interface ResourceInterface
+interface ResourceContract
 {
     public function transform(): JsonResource;
 
